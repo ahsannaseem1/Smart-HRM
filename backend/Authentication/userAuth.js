@@ -1,0 +1,48 @@
+const { MongoClient } = require("mongodb");
+const bcrypt = require("bcrypt");
+
+const uri = 'mongodb+srv://hafizzabdullah:abdullah@cluster0.m4ynoo5.mongodb.net/test?retryWrites=true&w=majority';
+const dbName = 'Smart_HRM';
+
+const authenticateUser = async (email, password) => {
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+
+        // Check if the email exists in the Organizations collection
+        const orgCollection = db.collection("Organizations");
+        const orgUser = await orgCollection.findOne({ "email": email });
+
+        if (orgUser && await bcrypt.compare(password, orgUser.password)) {
+            return { userType: "business_owner", user: orgUser };
+        }
+
+        // Check if the email exists in the HRs collection
+        const hrCollection = db.collection("HRs");
+        const hrUser = await hrCollection.findOne({ "email": email });
+
+        if (hrUser && await bcrypt.compare(password, hrUser.password)) {
+            return { userType: "hr", user: hrUser };
+        }
+
+        // Check if the email exists in the Employees collection
+        const empCollection = db.collection("Employees");
+        const empUser = await empCollection.findOne({ "email": email });
+
+        if (empUser && await bcrypt.compare(password, empUser.password)) {
+            return { userType: "employee", user: empUser };
+        }
+
+        // Email not found or password incorrect
+        return { userType: "invalid", user: null };
+    } catch (error) {
+        console.error("Error authenticating user:", error);
+        return { userType: "error", user: null };
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports ={ authenticateUser};
