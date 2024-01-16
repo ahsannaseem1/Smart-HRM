@@ -1,7 +1,8 @@
 const { MongoClient } = require("mongodb");
 const bcrypt = require("bcrypt");
+require('dotenv').config();
 
-const uri = 'mongodb+srv://hafizzabdullah:abdullah@cluster0.m4ynoo5.mongodb.net/test?retryWrites=true&w=majority';
+const uri = process.env.DB_URI;
 const dbName = 'Smart_HRM';
 
 const authenticateUser = async (email, password) => {
@@ -20,7 +21,7 @@ const authenticateUser = async (email, password) => {
         }
 
         // Check if the email exists in the HRs collection
-        const hrCollection = db.collection("HRs");
+        const hrCollection = db.collection("HR");
         const hrUser = await hrCollection.findOne({ "email": email });
 
         if (hrUser && await bcrypt.compare(password, hrUser.password)) {

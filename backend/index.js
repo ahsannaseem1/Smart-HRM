@@ -3,8 +3,8 @@ const cors=require('cors');
 const bodyParser=require('body-parser');
 const SignUp=require('./Routes/SignUp');
 const AddHR=require('./Routes/AddHR');
-
-const {authenticateUser}=require('./Authentication/userAuth')
+const Login=require('./Routes/Login');
+const AddEmployee=require('./Routes/AddEmployee');
 
 const app = express();
 
@@ -14,6 +14,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/SignUp',SignUp);
 app.use('/AddHR',AddHR);
+app.use('/Login',Login);
+app.use('/AddEmployee',AddEmployee);
 
 
 
