@@ -1,17 +1,6 @@
 const { MongoClient } = require("mongodb");
-const bcrypt = require("bcrypt");
+const {generateHash}=require('./utilities/generatePasswordHash');
 require('dotenv').config();
-
-const createHash = async (password) => {
-  try {
-    const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hash = await bcrypt.hash(password, salt);
-    return hash;
-  } catch (error) {
-    throw error;
-  }
-};
 
 const uri = process.env.DB_URI;
 const dbName = process.env.DB_NAME;
@@ -22,12 +11,19 @@ const client = new MongoClient(uri, {
 });
 
 const addEmployee = async (organizationId, name, email, password, salary, position, contact, dateOfBirth, department, employeeId, allowances, leaves) => {
-  const hashedPassword = await createHash(password);
 
   try {
     await client.connect();
     const db = client.db(dbName);
     const col = db.collection("Employees");
+
+    // Check if employee with the same email already exists
+    const existingEmployee = await col.findOne({ email: email });
+    if (existingEmployee) {
+      return {message:null,error:"Employee is already registered with these credentials."};
+    }
+    const hashedPassword = await generateHash(password);
+
 
     let employeeDocument = {
       organizationId: organizationId,
@@ -45,6 +41,9 @@ const addEmployee = async (organizationId, name, email, password, salary, positi
     };
 
     const result = await col.insertOne(employeeDocument);
+    if(result){
+      return{message:"Employee added successfully",error:null}
+    }
   } catch (err) {
     console.log(err.stack);
   } finally {

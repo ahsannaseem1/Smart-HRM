@@ -3,25 +3,19 @@ const bcrypt = require("bcrypt");
 require('dotenv').config();
 
 const createHash = async (password) => {
-  try {
-    const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-
-    const hash = await bcrypt.hash(password, salt);
-
-    return hash;
-  } catch (error) {
-    throw error;
-  }
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+  return bcrypt.hash(password, salt);
 };
 
-const uri =process.env.DB_URI;
+const uri = process.env.DB_URI;
 const dbName = process.env.DB_NAME;
 
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
 const addOrganization = async (
   name,
   numberOfEmployees,
@@ -32,31 +26,54 @@ const addOrganization = async (
   password
 ) => {
   const hashedPassword = await createHash(password);
+
   try {
     await client.connect();
-    const db = client.db(dbName);
-    const col = db.collection("Organizations");
+    const col = client.db(dbName).collection("Organizations");
 
-    let organizationDocument = {
-      name: name,
-      numberOfEmployees: numberOfEmployees,
-      numberOfHRs: numberOfHRs,
-      email: email,
-      address: address,
-      contact: contact,
+    // Check if email or name is already registered
+    const existingOrganization = await col.findOne({
+      $or: [{ email: email }, { name: name }],
+    });
+
+    if (existingOrganization) {
+      return {
+        organizationId: null,
+        error: `${existingOrganization.email === email ? email : name} is already registered.`,
+      };
+    }
+
+    const organizationDocument = {
+      name,
+      numberOfEmployees,
+      numberOfHRs,
+      email,
+      address,
+      contact,
       password: hashedPassword,
     };
 
     const result = await col.insertOne(organizationDocument);
-    const objectId = result.insertedId;
-
-    return objectId;
+    console.log(result);
+    const organizationId = result.insertedId;
+    const organizationName=name;
+    return {
+      organizationId,
+      organizationName,
+      error: null,
+    };
   } catch (err) {
-    console.log(err.stack);
+    console.error(err.stack);
+    return {
+      organizationId: null,
+      organizationName:null,
+      error: err.message,
+    };
   } finally {
     await client.close();
   }
 };
+
 module.exports = {
   addOrganization,
 };
