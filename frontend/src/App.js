@@ -4,6 +4,7 @@ import Testimonial from "./Components/Testimonial";
 import FAQ from "./Components/FAQ";
 import Footer from "./Components/Footer";
 import Login from "./Components/Login";
+import Register from "./Components/Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -25,6 +26,8 @@ function App() {
           ></Route>
           <Route
           path="/login" element={<Login></Login>}></Route>
+          <Route
+          path="/register" element={<Register></Register>}></Route>
         </Routes>
       </BrowserRouter>
     </>
