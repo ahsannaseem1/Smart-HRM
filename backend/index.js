@@ -6,7 +6,8 @@ const AddHR=require('./Routes/AddHR');
 const Login=require('./Routes/Login');
 const AddEmployee=require('./Routes/AddEmployee');
 const AddApplicant=require('./Routes/AddApplicant');
-const GetApplicants=require('./Routes/GetApplicants')
+const GetApplicants=require('./Routes/GetApplicants');
+const GetTopApplicants=require('./Routes/GetTopApplicants')
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use('/Login',Login);
 app.use('/AddEmployee',AddEmployee);
 app.use('/AddApplicant',AddApplicant);
 app.use('/GetApplicants',GetApplicants)
+app.use('/GetTopApplicants',GetTopApplicants);
 
 
 
