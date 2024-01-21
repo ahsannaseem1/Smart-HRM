@@ -7,8 +7,13 @@ module.exports = {
     extend: {
       colors: {
         'bg-color': '#207df7',
+        'sec-color':'#001763',
+        
       },
-    },
+      fontFamily: {
+        Montserrat: ['Montserrat', 'sans-serif'],
+      },
+    },  
   },
   plugins: [],
 }
