@@ -97,34 +97,38 @@ const Register = () => {
           /> */}
 
                    
+          
             {/* Number of Employees */}
-          <div className="mb-4 relative">
-            <label
-              htmlFor="numEmployees"
-              className={`absolute transition-all duration-300 ${
-                selectedEmployees ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
-              }`}
-            >
-              {selectedEmployees ? "No of Employees" : ""}
-            </label>
-            <select
-              id="numEmployees"
-              name="numEmployees"
-              className="p-2 border rounded w-full outline-none text-gray-500 bg-white"
-              autoComplete="off"
-              value={selectedEmployees}
-              onChange={handleEmployeesChange}
-            >
-              <option value="" disabled hidden={!selectedEmployees}>
-                Number of Employees
-              </option>
-              {employeesOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
+<div className="mb-4 relative">
+  <label
+    htmlFor="numEmployees"
+    className={`absolute transition-all duration-300 ${
+      selectedEmployees ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
+    }`}
+  >
+    {selectedEmployees ? "No of Employees" : ""}
+  </label>
+  <select
+    id="numEmployees"
+    name="numEmployees"
+    className={`p-2 border rounded w-full outline-none ${
+      selectedEmployees ? "text-white" : "text-gray-500"
+    } bg-white`}
+    autoComplete="off"
+    value={selectedEmployees}
+    onChange={handleEmployeesChange}
+  >
+    <option value="" disabled hidden={!selectedEmployees}>
+      Number of Employees
+    </option>
+    {employeesOptions.map((option) => (
+      <option key={option} value={option}>
+        {option}
+      </option>
+    ))}
+  </select>
+</div>
+
                     {/* Number of HRs
           <InputField
             label="No of HRs"
@@ -135,35 +139,36 @@ const Register = () => {
           /> */}
 
 
-                  {/* Number of HRs */}
-          <div className="mb-4 relative">
-            <label
-              htmlFor="numHRs"
-              className={`absolute transition-all duration-300 ${
-                selectedHRs ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
-              }`}
-            >
-              {selectedHRs ? "No of HRs" : ""}
-            </label>
-            <select
-              id="numHRs"
-              name="numHRs"
-              className="p-2 border rounded w-full outline-none text-gray-500 bg-white"
-              autoComplete="off"
-              value={selectedHRs}
-              onChange={handleHRsChange}
-            >
-              <option value="" disabled hidden={!selectedHRs}>
-                Number of HRs
-              </option>
-              {hrOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-
+                 {/* Number of HRs */}
+<div className="mb-4 relative">
+  <label
+    htmlFor="numHRs"
+    className={`absolute transition-all duration-300 ${
+      selectedHRs ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
+    }`}
+  >
+    {selectedHRs ? "No of HRs" : ""}
+  </label>
+  <select
+    id="numHRs"
+    name="numHRs"
+    className={`p-2 border rounded w-full outline-none ${
+      selectedHRs ? "text-white" : "text-gray-500"
+    } bg-white`}
+    autoComplete="off"
+    value={selectedHRs}
+    onChange={handleHRsChange}
+  >
+    <option value="" disabled hidden={!selectedHRs}>
+      Number of HRs
+    </option>
+    {hrOptions.map((option) => (
+      <option key={option} value={option}>
+        {option}
+      </option>
+    ))}
+  </select>
+</div>
                     {/* Submit Button */}
                     <button
                         type="submit"
