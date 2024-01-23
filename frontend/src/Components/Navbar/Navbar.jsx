@@ -7,7 +7,7 @@ function Navbar(props) {
     <div className="bg-bg-color">
       <header className="bg-bg-color flex flex-col items-center px-4 py-6 max-md:px-2">
         <div className="flex w-full max-w-[1527px] items-stretch justify-between gap-5 max-md:flex-wrap max-md:justify-center">
-          <h1 className="text-white text-2xl italic font-extrabold self-center">
+          <h1 className="text-white text-2xl font-extrabold ">
             Smart HRM
           </h1>
           <div className="self-center flex items-start justify-between gap-12 max-md:flex-wrap max-md:justify-center">
