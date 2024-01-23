@@ -1,9 +1,11 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
+const { ObjectId } = require('mongodb');
+
 
 const dbUri=process.env.DB_URI;
 const dbName=process.env.DB_NAME;
-async function requestLeave(employeeId, leaveDays, leaveType, reason) {
+async function requestLeave(employeeId, leaveDays, leaveType, leaveReason,leaveDate) {
     const uri = dbUri;
     const client = new MongoClient(uri);
 
@@ -11,27 +13,28 @@ async function requestLeave(employeeId, leaveDays, leaveType, reason) {
         await client.connect();
 
         const database = client.db(dbName);
-        const employeeCollection = database.collection('employee');
+        const employeeCollection = database.collection('Employees');
 
         const leave = {
             leaveDays,
             leaveType,
-            reason,
+            leaveReason,
+            leaveDate,
             status: 'pending'
         };
 
         await employeeCollection.updateOne(
-            { _id: employeeId },
-            { $push: { leaves: leave } }
+            { _id: new ObjectId(employeeId) },
+            { $set: { leaves: leave } }
         );
-
-        console.log('Leave request stored successfully.');
+        console.log(employeeCollection);
+        return({error:null,message:"Leave request stored successfully"})
     } catch (error) {
-        console.error('Error storing leave request:', error);
+        return({error:error,message:null})
     } finally {
         await client.close();
     }
 }
-
-// Usage example:
-requestLeave('employeeId', 5, 'annual', 'Vacation');
+module.exports={
+    requestLeave
+}
