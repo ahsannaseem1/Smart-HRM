@@ -337,3 +337,4 @@ useEffect(()=>{
 };
 
 export default Register;
+//make a loader in this code on register click and set the opacity to 50 %?
