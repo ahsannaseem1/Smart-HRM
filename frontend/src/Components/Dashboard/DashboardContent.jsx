@@ -1,3 +1,4 @@
+// src/components/DashboardContent.jsx
 import React from "react";
 
 function DashboardContent() {
@@ -13,34 +14,39 @@ function DashboardContent() {
         <DashboardStat label="Loan Requests" value="2" />
       </div>
 
-      {/* Notifications Section */}
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4">Notifications</h2>
-        <ul>
-          <li className="flex items-center mb-2">
-            <span className="bg-green-500 w-4 h-4 mr-2 rounded-full"></span>
-            New Employee Joined
-          </li>
-          <li className="flex items-center mb-2">
-            <span className="bg-yellow-500 w-4 h-4 mr-2 rounded-full"></span>
-            Upcoming Meeting
-          </li>
-        </ul>
-      </div>
+      {/* Notifications and To-Do List Section */}
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Notifications Section */}
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Notifications</h2>
+          <ul>
+            <li className="flex items-center mb-2">
+              <span className="bg-green-500 w-4 h-4 mr-2 rounded-full"></span>
+              New Employee Joined
+            </li>
+            <li className="flex items-center mb-2">
+              <span className="bg-yellow-500 w-4 h-4 mr-2 rounded-full"></span>
+              Upcoming Meeting
+            </li>
+            {/* Add more notifications as needed */}
+          </ul>
+        </div>
 
-      {/* To-Do List Section */}
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4">To-Do List</h2>
-        <ul>
-          <li className="flex items-center mb-2">
-            <input type="checkbox" className="mr-2" />
-            Complete Monthly Payroll
-          </li>
-          <li className="flex items-center mb-2">
-            <input type="checkbox" className="mr-2" />
-            Schedule Team Building
-          </li>
-        </ul>
+        {/* To-Do List Section */}
+        <div>
+          <h2 className="text-xl font-semibold mb-4">To-Do List</h2>
+          <ul>
+            <li className="flex items-center mb-2">
+              <input type="checkbox" className="mr-2" />
+              Complete Monthly Payroll
+            </li>
+            <li className="flex items-center mb-2">
+              <input type="checkbox" className="mr-2" />
+              Schedule Team Building
+            </li>
+            {/* Add more to-do items as needed */}
+          </ul>
+        </div>
       </div>
     </div>
   );

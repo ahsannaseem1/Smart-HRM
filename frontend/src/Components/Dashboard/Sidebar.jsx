@@ -1,16 +1,17 @@
+// src/components/Sidebar.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <aside className="w-64 bg-gray-800 p-4">
+    <aside className="w-64 m-2 bg-blue-500 p-4 rounded-r-xl shadow-md">
       {/* Organization Name */}
       <h1 className="text-white text-lg font-semibold mb-4">Your Organization</h1>
 
       {/* HR Profile */}
       <div className="flex items-center mb-6">
         <img
-          src="./images/log1.jpg"
+          src="path-to-your-profile-pic.jpg"
           alt="HR Profile"
           className="w-10 h-10 rounded-full mr-2"
         />
@@ -44,7 +45,7 @@ function SidebarItem({ to, icon, label }) {
     <li>
       <Link
         to={to}
-        className="flex items-center text-white p-2 rounded-md hover:bg-gray-700"
+        className="flex items-center text-white p-2 rounded-md hover:bg-blue-600"
       >
         <span className="mr-2">{icon}</span>
         <span>{label}</span>
