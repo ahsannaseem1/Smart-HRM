@@ -9,7 +9,9 @@ const AddApplicant=require('./Routes/AddApplicant');
 const GetApplicants=require('./Routes/GetApplicants');
 const GetTopApplicants=require('./Routes/GetTopApplicants');
 const RequestLeave=require('./Routes/Leave/RequestLeave');
-const AcceptOrRejectLeave=require('./Routes/Leave/AcceptOrRejectLeave')
+const AcceptOrRejectLeave=require('./Routes/Leave/AcceptOrRejectLeave');
+const GetLeavesData=require('./Routes/Leave/GetLeavesData');
+
 const app = express();
 
 app.use(cors({credentials: true }));
@@ -25,6 +27,7 @@ app.use('/GetApplicants',GetApplicants)
 app.use('/GetTopApplicants',GetTopApplicants);
 app.use('/RequestLeave',RequestLeave);
 app.use('/AcceptOrRejectLeave',AcceptOrRejectLeave);
+app.use('/GetLeavesData',GetLeavesData);
 
 
 
