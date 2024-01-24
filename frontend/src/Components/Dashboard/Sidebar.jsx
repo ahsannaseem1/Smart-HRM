@@ -1,17 +1,23 @@
-// src/components/Sidebar.jsx
+// src/components/Dashboard/Sidebar.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Sidebar() {
+function Sidebar({ isSidebarOpen }) {
   return (
-    <aside className="w-64 m-2 bg-blue-500 p-4 rounded-r-xl shadow-md">
+    <aside
+      className={`w-64 m-2 ${
+        isSidebarOpen ? "block" : "hidden"
+      } md:block bg-blue-500 p-4 h-90vh flex flex-col justify-center items-center rounded-r-xl shadow-md`}
+    >
       {/* Organization Name */}
-      <h1 className="text-white text-lg font-semibold mb-4">Your Organization</h1>
+      <h1 className="text-white text-lg font-semibold mb-4">
+        Your Organization
+      </h1>
 
       {/* HR Profile */}
       <div className="flex items-center mb-6">
         <img
-          src="path-to-your-profile-pic.jpg"
+          src=".. /images/log1.jpg"
           alt="HR Profile"
           className="w-10 h-10 rounded-full mr-2"
         />
@@ -24,7 +30,7 @@ function Sidebar() {
       {/* Sidebar Menu */}
       <nav>
         <ul className="space-y-2">
-          <SidebarItem to="/dashboard" icon="📊" label="Dashboard" />
+        <SidebarItem to="/dashboard" icon="📊" label="Dashboard" />
           <SidebarItem to="/dashboard/departments" icon="🏢" label="Departments" />
           <SidebarItem to="/dashboard/employees" icon="👥" label="Employees" />
           <SidebarItem to="/dashboard/attendance" icon="👋" label="Attendance" />
