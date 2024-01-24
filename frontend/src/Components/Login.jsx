@@ -2,6 +2,7 @@ import React from "react";
 import LoginImage from "../images/log1.jpg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import InputField from "./InputField";
 
 const Login = () => {
   return (
@@ -20,39 +21,22 @@ const Login = () => {
 
           <form className="grid grid-cols-1 gap-6 mt-20">
             {/* Email */}
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-left text-white">
-                Email
-              </label>
-              <input
-                type="text"
-                id="email"
-                name="email"
-                className="p-2 border rounded w-full outline-none mt-2"
-                placeholder="Enter Email"
-                style={{ fontSize: "14px" }}
-              />
-            </div>
+            <InputField
+              label="Email"
+              type="text"
+              id="email"
+              name="email"
+              autoComplete="off"
+            />
 
             {/* Password */}
-            <div className="mb-4">
-              <label htmlFor="password" className="block text-left text-white">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="p-2 border rounded w-full outline-none mt-2"
-                placeholder="Enter Password"
-                style={{ fontSize: "14px" }}
-              />
-              <div className="flex justify-end">
-                <p className="text-sm underline text-white mt-2 cursor-pointer">
-                  Forgot password?
-                </p>
-              </div>
-            </div>
+            <InputField
+              label="Password"
+              type="password"
+              id="password"
+              name="password"
+              autoComplete="off"
+            />
 
             {/* Submit Button */}
             <div className="mb-4">
