@@ -4,9 +4,9 @@ const {addOrganization}=require('../Database/addOrganization');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-    const { name, email, password, numberOfHrs, numberOfEmployees, contact, address } = req.body;
+    const { orgName, email, password, numberOfHrs, numberOfEmployees, phoneNumber, address } = req.body;
     try {
-        const { organizationId,organizationName, error } = await addOrganization(name, numberOfHrs, numberOfEmployees, email, address, contact, password);
+        const { organizationId,organizationName, error } = await addOrganization(orgName, numberOfHrs, numberOfEmployees, email, address, phoneNumber, password);
         if (organizationId) {
             res.status(200).send({ id: organizationId,name:organizationName });
         } else {
