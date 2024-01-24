@@ -2,10 +2,10 @@ const { MongoClient } = require('mongodb');
 require('dotenv').config();
 const { ObjectId } = require('mongodb');
 
+const dbUri = process.env.DB_URI;
+const dbName = process.env.DB_NAME;
 
-const dbUri=process.env.DB_URI;
-const dbName=process.env.DB_NAME;
-async function requestLeave(employeeId, leaveDays, leaveType, leaveReason,leaveDate) {
+async function requestLeave(employeeId, leaveDays, leaveType, leaveReason, leaveDate) {
     const uri = dbUri;
     const client = new MongoClient(uri);
 
@@ -15,7 +15,9 @@ async function requestLeave(employeeId, leaveDays, leaveType, leaveReason,leaveD
         const database = client.db(dbName);
         const employeeCollection = database.collection('Employees');
 
+        const leaveId = new ObjectId(); // Generate a new ObjectId for the leave request
         const leave = {
+            _id: leaveId,
             leaveDays,
             leaveType,
             leaveReason,
@@ -27,14 +29,15 @@ async function requestLeave(employeeId, leaveDays, leaveType, leaveReason,leaveD
             { _id: new ObjectId(employeeId) },
             { $push: { leaveRequest: leave } }
         );
-        console.log(employeeCollection);
-        return({error:null,message:"Leave request stored successfully"})
+
+        return { error: null, message: "Leave request stored successfully", leaveId: leaveId.toHexString() };
     } catch (error) {
-        return({error:error,message:null})
+        return { error: error, message: null, leaveId: null };
     } finally {
         await client.close();
     }
 }
-module.exports={
+
+module.exports = {
     requestLeave
-}
+};

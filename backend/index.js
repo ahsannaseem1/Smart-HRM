@@ -7,9 +7,9 @@ const Login=require('./Routes/Login');
 const AddEmployee=require('./Routes/AddEmployee');
 const AddApplicant=require('./Routes/AddApplicant');
 const GetApplicants=require('./Routes/GetApplicants');
-const GetTopApplicants=require('./Routes/GetTopApplicants')
-const RequestLeave=require('./Routes/RequestLeave')
-
+const GetTopApplicants=require('./Routes/GetTopApplicants');
+const RequestLeave=require('./Routes/Leave/RequestLeave');
+const AcceptOrRejectLeave=require('./Routes/Leave/AcceptOrRejectLeave')
 const app = express();
 
 app.use(cors({credentials: true }));
@@ -24,6 +24,7 @@ app.use('/AddApplicant',AddApplicant);
 app.use('/GetApplicants',GetApplicants)
 app.use('/GetTopApplicants',GetTopApplicants);
 app.use('/RequestLeave',RequestLeave);
+app.use('/AcceptOrRejectLeave',AcceptOrRejectLeave);
 
 
 
