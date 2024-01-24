@@ -4,6 +4,7 @@ import RegisterImage from "../images/reg7.jpg";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InputField from "./InputField";
+import validator from 'validator'
 
 const Register = () => {
   const employeesOptions = Array.from({ length: 30 }, (_, i) => i + 1);
@@ -178,24 +179,24 @@ const Register = () => {
           {/* Number of Employees */}
           <div className="mb-4 relative">
             <label
-              htmlFor="numEmployees"
+              htmlFor="numberOfEmployees"
               className={`absolute transition-all duration-300 ${
-                formData.numEmployees ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
+                formData.numberOfEmployees ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
               }`}
             >
-              {formData.numEmployees ? "No of Employees" : ""}
+              {formData.numberOfEmployees ? "No of Employees" : ""}
             </label>
             <select
-              id="numEmployees"
-              name="numEmployees"
+              id="numberOfEmployees"
+              name="numberOfEmployees"
               className={`p-2 border rounded w-full outline-none ${
-                formData.numEmployees ? "text-white" : "text-gray-500"
+                formData.numberOfEmployees ? "text-white" : "text-gray-500"
               } bg-white`}
               autoComplete="off"
-              value={formData.numEmployees}
+              value={formData.numberOfEmployees}
               onChange={handleInputChange}
             >
-              <option value="" disabled hidden={!formData.numEmployees}>
+              <option value="" disabled hidden={!formData.numberOfEmployees}>
                 Number of Employees
               </option>
               {employeesOptions.map((option) => (
@@ -204,32 +205,32 @@ const Register = () => {
                 </option>
               ))}
             </select>
-            {errors.numEmployees && (
-              <p className="text-red-800 font-bold text-xs mt-1">{errors.numEmployees}</p>
+            {errors.numberOfEmployees && (
+              <p className="text-red-800 font-bold text-xs mt-1">{errors.numberOfEmployees}</p>
             )}
           </div>
 
           {/* Number of HRs */}
           <div className="mb-4 relative">
             <label
-              htmlFor="numHRs"
+              htmlFor="numberOfHrs"
               className={`absolute transition-all duration-300 ${
-                formData.numHRs ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
+                formData.numberOfHrs ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
               }`}
             >
-              {formData.numHRs ? "No of HRs" : ""}
+              {formData.numberOfHrs ? "No of HRs" : ""}
             </label>
             <select
-              id="numHRs"
-              name="numHRs"
+              id="numberOfHrs"
+              name="numberOfHrs"
               className={`p-2 border rounded w-full outline-none ${
-                formData.numHRs ? "text-white" : "text-gray-500"
+                formData.numberOfHrs ? "text-white" : "text-gray-500"
               } bg-white`}
               autoComplete="off"
-              value={formData.numHRs}
+              value={formData.numberOfHrs}
               onChange={handleInputChange}
             >
-              <option value="" disabled hidden={!formData.numHRs}>
+              <option value="" disabled hidden={!formData.numberOfHrs}>
                 Number of HRs
               </option>
               {hrOptions.map((option) => (
@@ -238,8 +239,8 @@ const Register = () => {
                 </option>
               ))}
             </select>
-            {errors.numHRs && (
-              <p className="text-red-800 font-bold text-xs mt-1">{errors.numHRs}</p>
+            {errors.numberOfHrs && (
+              <p className="text-red-800 font-bold text-xs mt-1">{errors.numberOfHrs}</p>
             )}
           </div>
 
