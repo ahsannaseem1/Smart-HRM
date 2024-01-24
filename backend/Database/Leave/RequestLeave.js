@@ -25,7 +25,7 @@ async function requestLeave(employeeId, leaveDays, leaveType, leaveReason,leaveD
 
         await employeeCollection.updateOne(
             { _id: new ObjectId(employeeId) },
-            { $set: { leaves: leave } }
+            { $push: { leaveRequest: leave } }
         );
         console.log(employeeCollection);
         return({error:null,message:"Leave request stored successfully"})
