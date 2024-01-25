@@ -1,3 +1,5 @@
+import React from "react";
+import Dashboard from "./Components/Dashboard/Dashboard";
 import Navbar from "./Components/Navbar/Navbar";
 import Pricing from "./Components/Pricing";
 import Testimonial from "./Components/Testimonial";
@@ -26,12 +28,14 @@ function App() {
           ></Route>
           <Route
           path="/login" element={<Login></Login>}></Route>
+          <Route 
+          path="/dashboard" element={<Dashboard />} />
           <Route
           path="/register" element={<Register></Register>}></Route>
         </Routes>
       </BrowserRouter>
     </>
   );
-}
+} 
 
 export default App;
