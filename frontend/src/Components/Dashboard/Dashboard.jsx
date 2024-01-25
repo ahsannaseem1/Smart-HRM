@@ -1,7 +1,7 @@
 // src/components/Dashboard.jsx
 import React, { useState } from "react";
-import Sidebar from "./Dashboard/Sidebar";
-import DashboardContent from "./Dashboard/DashboardContent";
+import Sidebar from "./Sidebar";
+import DashboardContent from "./DashboardContent";
 
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -16,14 +16,14 @@ function Dashboard() {
       <div className="md:hidden">
         <button
           onClick={toggleSidebar}
-          className="bg-blue-500 text-white p-2 rounded-md"
+          className="bg-gray-200 text-white font-extrabold m-2 p-4 rounded-xl"
         >
           {isSidebarOpen ? "✕" : "☰"}
         </button>
       </div>
 
       {/* Sidebar */}
-      <Sidebar isSidebarOpen={isSidebarOpen} />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Main Content Area */}
       <div

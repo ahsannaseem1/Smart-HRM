@@ -1,5 +1,5 @@
 import React from "react";
-import Dashboard from "./Components/Dashboard";
+import Dashboard from "./Components/Dashboard/Dashboard";
 import Navbar from "./Components/Navbar/Navbar";
 import Pricing from "./Components/Pricing";
 import Testimonial from "./Components/Testimonial";
