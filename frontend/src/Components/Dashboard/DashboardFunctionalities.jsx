@@ -1,10 +1,14 @@
 // src/components/Dashboard/DashboardFunctionalities.jsx
 import React from "react";
 import DashboardStat from "./DashboardStat";
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import InputField from "../InputField";
+
 
 function DashboardFunctionalities({ toDoList, newTask, setNewTask, handleAddToDo, handleDeleteToDo }) {
   return (
-    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-100 p-4">
+    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-100 rounded-lg p-4">
       <div>
         <h2 className="text-xl font-semibold mb-4">Notifications</h2>
         <ul>
@@ -26,12 +30,7 @@ function DashboardFunctionalities({ toDoList, newTask, setNewTask, handleAddToDo
             <li key={index} className="flex items-center mb-2">
               <input type="checkbox" className="mr-2" />
               {item}
-              <button
-                onClick={() => handleDeleteToDo(index)}
-                className="ml-2 text-red-500"
-              >
-                Delete
-              </button>
+              <DeleteRoundedIcon onClick={() => handleDeleteToDo(index)}></DeleteRoundedIcon>
             </li>
           ))}
         </ul>
@@ -43,6 +42,7 @@ function DashboardFunctionalities({ toDoList, newTask, setNewTask, handleAddToDo
             placeholder="Enter new task..."
             className="mr-2 p-2 border rounded-md"
           />
+          <AddRoundedIcon onClick={handleAddToDo}></AddRoundedIcon>
           <button
             onClick={handleAddToDo}
             className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
