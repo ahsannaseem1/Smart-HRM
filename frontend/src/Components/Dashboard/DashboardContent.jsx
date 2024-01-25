@@ -79,6 +79,7 @@ function DashboardContent() {
               placeholder="Enter new task..."
               className="mr-2 p-2 border rounded-md"
             />
+            
             <button
               onClick={handleAddToDo}
               className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
