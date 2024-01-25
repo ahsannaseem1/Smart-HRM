@@ -31,7 +31,7 @@ function DashboardContent() {
     <div className="p-6 mt-2">
       <DashboardOverview />
       <div className="grid grid-cols-2 gap-4">
-        <DashboardStat label="Total Employees" value="150" />
+        <DashboardStat label="Total Employees" value="50" />
         <DashboardStat label="Departments" value="10" />
         <DashboardStat label="Leave Requests" value="5" />
         <DashboardStat label="Loan Requests" value="2" />
