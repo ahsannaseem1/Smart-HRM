@@ -7,12 +7,12 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
-  const user = await authenticateUser(email, password);
-  console.log(user);
-  if (!user.user) {
-    res.status(500).send(user);
+  const result = await authenticateUser(email, password);
+  console.log(result);
+  if (!result.user) {
+    res.status(500).json(result);
   } else {
-    res.status(200).send(user);
+    res.status(200).send(result);
   }
 });
 module.exports = router;
