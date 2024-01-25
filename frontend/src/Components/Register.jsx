@@ -181,71 +181,67 @@ const Register = () => {
 
           {/* Number of Employees */}
           <div className="mb-4 relative">
-            <label
-              htmlFor="numberOfEmployees"
-              className={`absolute transition-all duration-300 ${
-                formData.numberOfEmployees ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
-              }`}
-            >
-              {formData.numberOfEmployees ? "No of Employees" : ""}
-            </label>
-            <select
-              id="numberOfEmployees"
-              name="numberOfEmployees"
-              className={`p-2 border rounded w-full outline-none ${
-                formData.numberOfEmployees ? "text-white" : "text-gray-500"
-              } bg-white`}
-              autoComplete="off"
-              value={formData.numberOfEmployees}
-              onChange={handleInputChange}
-            >
-              <option value="" disabled hidden={!formData.numberOfEmployees}>
-                Number of Employees
-              </option>
-              {employeesOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-            {errors.numberOfEmployees && (
-              <p className="text-red-800 font-bold text-xs mt-1">{errors.numberOfEmployees}</p>
-            )}
-          </div>
+  <label
+    htmlFor="numberOfEmployees"
+    className={`absolute transition-all duration-300 ${
+      formData.numberOfEmployees ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
+    }`}
+  >
+    {formData.numberOfEmployees ? "No of Employees" : ""}
+  </label>
+  <select
+    id="numberOfEmployees"
+    name="numberOfEmployees"
+    className={`p-2 border rounded w-full outline-none ${
+      formData.numberOfEmployees ? "text-black" : "text-gray-500"
+    } bg-white`}
+    autoComplete="off"
+    value={formData.numberOfEmployees}
+    onChange={handleInputChange}
+  >
+    <option value="">Number of Employees</option>
+    {employeesOptions.map((option) => (
+      <option key={option} value={option}>
+        {option}
+      </option>
+    ))}
+  </select>
+  {errors.numberOfEmployees && (
+    <p className="text-red-800 font-bold text-xs mt-1">{errors.numberOfEmployees}</p>
+  )}
+</div>
 
-          {/* Number of HRs */}
-          <div className="mb-4 relative">
-            <label
-              htmlFor="numberOfHrs"
-              className={`absolute transition-all duration-300 ${
-                formData.numberOfHrs ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
-              }`}
-            >
-              {formData.numberOfHrs ? "No of HRs" : ""}
-            </label>
-            <select
-              id="numberOfHrs"
-              name="numberOfHrs"
-              className={`p-2 border rounded w-full outline-none ${
-                formData.numberOfHrs ? "text-white" : "text-gray-500"
-              } bg-white`}
-              autoComplete="off"
-              value={formData.numberOfHrs}
-              onChange={handleInputChange}
-            >
-              <option value="" disabled hidden={!formData.numberOfHrs}>
-                Number of HRs
-              </option>
-              {hrOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-            {errors.numberOfHrs && (
-              <p className="text-red-800 font-bold text-xs mt-1">{errors.numberOfHrs}</p>
-            )}
-          </div>
+{/* Number of HRs */}
+<div className="mb-4 relative">
+  <label
+    htmlFor="numberOfHrs"
+    className={`absolute transition-all duration-300 ${
+      formData.numberOfHrs ? "text-sm text-white -top-6 left-1" : "top-2 left-3 text-gray-500 text-xs md:text-sm lg:text-sm"
+    }`}
+  >
+    {formData.numberOfHrs ? "No of HRs" : ""}
+  </label>
+  <select
+    id="numberOfHrs"
+    name="numberOfHrs"
+    className={`p-2 border rounded w-full outline-none ${
+      formData.numberOfHrs ? "text-black" : "text-gray-500"
+    } bg-white`}
+    autoComplete="off"
+    value={formData.numberOfHrs}
+    onChange={handleInputChange}
+  >
+    <option value="">Number of HRs</option>
+    {hrOptions.map((option) => (
+      <option key={option} value={option}>
+        {option}
+      </option>
+    ))}
+  </select>
+  {errors.numberOfHrs && (
+    <p className="text-red-800 font-bold text-xs mt-1">{errors.numberOfHrs}</p>
+  )}
+</div>
 
           {/* Submit Button */}
           {apiError && (
