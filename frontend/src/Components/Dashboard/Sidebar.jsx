@@ -23,40 +23,39 @@ function Sidebar({ isOpen, onClose }) {
     <aside
       className={`w-60 m-3 ${
         isOpen ? "block" : "hidden"
-      } md:block bg-blue-500 p-3 h-90vh flex flex-col justify-center items-center rounded-3xl shadow-lg`}
+      } md:block bg-bg-color h-90vh flex flex-col justify-center items-center rounded-3xl shadow-lg`}
+      
     >
       {/* Organization Name */}
-      <div className="flex justify-center items-center">
-        <h1 className="text-white text-lg font-semibold mb-2 mt-4">
-          DevTech Solutions
-        </h1>
-      </div>
+      <h1 className="text-white text-lg font-semibold mb-2 mt-4 text-center">
+        DevTech Solutions
+      </h1>
 
       {/* HR Profile */}
-      <div className="flex items-center justify-center mb-5 mt-5">
+      <div className="flex flex-col items-center mb-5 mt-5">
         <img
           src={logoImage}
           alt="HR Profile"
-          className="w-10 h-10 rounded-full mr-4"
+          className="w-12 h-12 rounded-full mb-1"
         />
-        <div>
-          <p className="text-white font-semibold mb-1">Sameer Ali</p>
+        <div className="text-center">
+          <p className="text-white text-lg font-semibold mt-1">Sameer Ali</p>
           <p className="text-gray-300 text-sm">HR Manager</p>
         </div>
       </div>
 
       {/* Sidebar Menu */}
       <nav>
-        <ul className="space-y-2">
-          <SidebarItem to="/dashboard" label="Dashboard" isActive={isActive("/dashboard")} onClose={onClose} icon={<DashboardRoundedIcon style={{ color: 'white' }} />} />
-          <SidebarItem to="/dashboard/departments" label="Departments" isActive={isActive("/dashboard/departments")} onClose={onClose} icon={<AccountBalanceRoundedIcon style={{ color: 'white' }} />} />
-          <SidebarItem to="/dashboard/employees" label="Employees" isActive={isActive("/dashboard/employees")} onClose={onClose} icon={<GroupsRoundedIcon style={{ color: 'white' }} />} />
-          <SidebarItem to="/dashboard/attendance" label="Attendance" isActive={isActive("/dashboard/attendance")} onClose={onClose} icon={<PermContactCalendarRoundedIcon style={{ color: 'white' }} />} />
-          <SidebarItem to="/dashboard/leave" label="Leave" isActive={isActive("/dashboard/leave")} onClose={onClose} icon={<EventRoundedIcon style={{ color: 'white' }} />} />
-          <SidebarItem to="/dashboard/payroll" label="Payroll" isActive={isActive("/dashboard/payroll")} onClose={onClose} icon={<PaidRoundedIcon style={{ color: 'white' }} />} />
-          <SidebarItem to="/dashboard/recruitment" label="Recruitment" isActive={isActive("/dashboard/recruitment")} onClose={onClose} icon={<QueuePlayNextRoundedIcon style={{ color: 'white' }} />} />
-          <SidebarItem to="/dashboard/profile" label="Profile" isActive={isActive("/dashboard/profile")} onClose={onClose} icon={<Person2RoundedIcon style={{ color: 'white' }} />} />
-          <SidebarItem to="/dashboard/settings" label="Settings" isActive={isActive("/dashboard/settings")} onClose={onClose} icon={<SettingsRoundedIcon style={{ color: 'white' }} />} />
+        <ul className="space-y-1 w-full">
+          <SidebarItem to="/dashboard" label="Dashboard" isActive={isActive("/dashboard")} onClose={onClose} icon={<DashboardRoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
+          <SidebarItem to="/dashboard/departments" label="Departments" isActive={isActive("/dashboard/departments")} onClose={onClose} icon={<AccountBalanceRoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
+          <SidebarItem to="/dashboard/employees" label="Employees" isActive={isActive("/dashboard/employees")} onClose={onClose} icon={<GroupsRoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
+          <SidebarItem to="/dashboard/attendance" label="Attendance" isActive={isActive("/dashboard/attendance")} onClose={onClose} icon={<PermContactCalendarRoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
+          <SidebarItem to="/dashboard/leave" label="Leave" isActive={isActive("/dashboard/leave")} onClose={onClose} icon={<EventRoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
+          <SidebarItem to="/dashboard/payroll" label="Payroll" isActive={isActive("/dashboard/payroll")} onClose={onClose} icon={<PaidRoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
+          <SidebarItem to="/dashboard/recruitment" label="Recruitment" isActive={isActive("/dashboard/recruitment")} onClose={onClose} icon={<QueuePlayNextRoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
+          <SidebarItem to="/dashboard/profile" label="Profile" isActive={isActive("/dashboard/profile")} onClose={onClose} icon={<Person2RoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
+          <SidebarItem to="/dashboard/settings" label="Settings" isActive={isActive("/dashboard/settings")} onClose={onClose} icon={<SettingsRoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
         </ul>
       </nav>
     </aside>
@@ -66,21 +65,20 @@ function Sidebar({ isOpen, onClose }) {
 // Sidebar Item Component
 function SidebarItem({ to, icon, label, isActive, onClose }) {
   return (
-    <li>
+    <li className="w-full">
       <Link
         to={to}
-        className={`flex items-center text-white p-2 rounded-xl hover:bg-blue-600 ${
-          isActive ? 'bg-blue-600 border-l-4' : ''
-        }`}
+        className={`flex items-center justify-between text-white py-2 md:py-1.5 mb-1 hover:bg-blue-600 ${isActive ? 'bg-sec-color pr-3 rounded-l-3xl' : ''}`}
         onClick={onClose}
       >
-        <div className="flex items-center">
-          <span className="mr-2">{icon}</span>
-          <span>{label}</span>
+        <div className="flex items-center ml-5">
+          <span className="mr-2 ">{icon}</span>
+          <span className="text-md ml-1">{label}</span>
         </div>
       </Link>
     </li>
   );
 }
+
 
 export default Sidebar;

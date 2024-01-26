@@ -111,7 +111,7 @@ const Register = () => {
 
       {/* Form Container */}
       <div className="flex-1 bg-bg-color p-8 shadow-md text-center">
-        <h2 className="text-3xl font-bold mb-4 text-white mt-10 md:mt-3 sm:mt-6">Register your Organization</h2>
+        <h2 className="text-3xl font-bold mb-4 text-white mt-4 md:mt-1 sm:mt-5">Register your Organization</h2>
         <p className="md:text-md sm:text-sm mb-4 text-white">Sign Up as a Super Admin of your organization</p>
         <form className="grid grid-cols-1 gap-6 md:gap-5 lg:gap-6 sm:mt-10 md:mt-14 lg:mt-16 mt-12 text-left sm:grid-cols-2" onSubmit={handleRegister}>
           {/* Organization Name */}

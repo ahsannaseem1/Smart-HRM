@@ -18,8 +18,8 @@ function DashboardOverview() {
 
   return (
     <div className="flex justify-between items-center border-b-2 mb-8">
-      <h1 className="text-2xl font-extrabold">Dashboard Overview</h1>
-      <p className="text-gray-500">{currentDate}</p>
+      <h1 className="text-3xl font-extrabold">Dashboard</h1>
+      <p className="text-gray-500 text-sm hidden sm:block">{currentDate}</p>
     </div>
   );
 }
