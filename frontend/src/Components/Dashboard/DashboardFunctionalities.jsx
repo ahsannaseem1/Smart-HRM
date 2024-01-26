@@ -31,7 +31,7 @@ function DashboardFunctionalities({ toDoList, newTask, setNewTask, handleAddToDo
             type="text"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
-            placeholder="Enter new task..."
+            placeholder="Add new task..."
             className="mr-5 h-10 p-3 border rounded-xl outline-none w-2/4"
           />
           <div

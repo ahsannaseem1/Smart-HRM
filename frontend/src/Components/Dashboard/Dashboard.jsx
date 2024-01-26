@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import DashboardContent from "./DashboardContent";
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -16,9 +18,9 @@ function Dashboard() {
       <div className="md:hidden">
         <button
           onClick={toggleSidebar}
-          className="bg-gray-100 text-black font-extrabold m-2 p-2 rounded-full"
+          className="bg-gray-100 text-black mt-5 ml-5 p-2 rounded-full"
         >
-          {isSidebarOpen ? "✕" : "☰"}
+          {isSidebarOpen ? <CloseRoundedIcon></CloseRoundedIcon> : <MenuRoundedIcon></MenuRoundedIcon>}
         </button>
       </div>
 
