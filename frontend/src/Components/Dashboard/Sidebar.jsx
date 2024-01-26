@@ -23,7 +23,8 @@ function Sidebar({ isOpen, onClose }) {
     <aside
       className={`w-60 m-3 ${
         isOpen ? "block" : "hidden"
-      } md:block bg-bg-color p-3 h-90vh flex flex-col justify-center items-center rounded-3xl shadow-lg`}
+      } md:block bg-bg-color h-90vh flex flex-col justify-center items-center rounded-3xl shadow-lg`}
+      
     >
       {/* Organization Name */}
       <h1 className="text-white text-lg font-semibold mb-2 mt-4 text-center">
@@ -45,7 +46,7 @@ function Sidebar({ isOpen, onClose }) {
 
       {/* Sidebar Menu */}
       <nav>
-        <ul className="space-y-1">
+        <ul className="space-y-1 w-full">
           <SidebarItem to="/dashboard" label="Dashboard" isActive={isActive("/dashboard")} onClose={onClose} icon={<DashboardRoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
           <SidebarItem to="/dashboard/departments" label="Departments" isActive={isActive("/dashboard/departments")} onClose={onClose} icon={<AccountBalanceRoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
           <SidebarItem to="/dashboard/employees" label="Employees" isActive={isActive("/dashboard/employees")} onClose={onClose} icon={<GroupsRoundedIcon style={{ color: 'white', fontSize: 20 }} />} />
@@ -64,15 +65,15 @@ function Sidebar({ isOpen, onClose }) {
 // Sidebar Item Component
 function SidebarItem({ to, icon, label, isActive, onClose }) {
   return (
-    <li>
+    <li className="w-full">
       <Link
         to={to}
-        className={`flex items-center justify-between text-white p-2 rounded-2xl hover:bg-blue-600 ${isActive ? 'bg-sec-color border-l-4 rounded-l-none pr-3' : ''}`}
+        className={`flex items-center justify-between text-white py-2 md:py-1.5 mb-1 hover:bg-blue-600 ${isActive ? 'bg-sec-color pr-3 rounded-l-3xl' : ''}`}
         onClick={onClose}
       >
-        <div className="flex items-center">
-          <span className="mr-2">{icon}</span>
-          <span className="text-md">{label}</span>
+        <div className="flex items-center ml-5">
+          <span className="mr-2 ">{icon}</span>
+          <span className="text-md ml-1">{label}</span>
         </div>
       </Link>
     </li>

@@ -16,7 +16,7 @@ function Dashboard() {
       <div className="md:hidden">
         <button
           onClick={toggleSidebar}
-          className="bg-gray-200 text-white font-extrabold m-2 p-4 rounded-xl"
+          className="bg-gray-100 text-black font-extrabold m-2 p-2 rounded-full"
         >
           {isSidebarOpen ? "✕" : "☰"}
         </button>

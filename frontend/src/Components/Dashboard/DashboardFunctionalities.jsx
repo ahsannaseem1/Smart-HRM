@@ -5,11 +5,11 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import InputField from "../InputField";
 
-
 function DashboardFunctionalities({ toDoList, newTask, setNewTask, handleAddToDo, handleDeleteToDo }) {
   return (
-    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-100 rounded-lg p-4">
-      <div>
+    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 mt-10 rounded-lg">
+      {/* Notifications Section */}
+      <div className="bg-gray-100 rounded-xl p-4">
         <h2 className="text-xl font-semibold mb-4">Notifications</h2>
         <ul>
           <li className="flex items-center mb-2">
@@ -23,34 +23,42 @@ function DashboardFunctionalities({ toDoList, newTask, setNewTask, handleAddToDo
         </ul>
       </div>
 
-      <div>
+      {/* To-Do List Section */}
+      <div className="bg-gray-100 rounded-xl p-4">
         <h2 className="text-xl font-semibold mb-4">To-Do List</h2>
-        <ul>
-          {toDoList.map((item, index) => (
-            <li key={index} className="flex items-center mb-2">
-              <input type="checkbox" className="mr-2" />
-              {item}
-              <DeleteRoundedIcon onClick={() => handleDeleteToDo(index)}></DeleteRoundedIcon>
-            </li>
-          ))}
-        </ul>
-        <div className="flex mt-4">
+        <div className="flex items-center justify-center mt-5 mb-8">
           <input
             type="text"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
             placeholder="Enter new task..."
-            className="mr-2 p-2 border rounded-md"
+            className="mr-5 h-10 p-3 border rounded-xl outline-none w-2/4"
           />
-          <AddRoundedIcon onClick={handleAddToDo}></AddRoundedIcon>
-          <button
+          <div
             onClick={handleAddToDo}
-            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+            className="bg-sec-color text-white p-2 rounded-full cursor-pointer hover:bg-blue-600 flex items-center"
+            style={{ fontSize: '0.4rem', padding: '0.4rem' }}
           >
-            Add Task
-          </button>
+            <AddRoundedIcon />
+          </div>
         </div>
+        <ul className="list-disc list-inside">
+          {toDoList.map((item, index) => (
+            <li key={index} className="flex items-center justify-between mb-2 relative ml-2">
+              <div className="flex items-center">
+                <div className="list-item ">{item}</div>
+              </div>
+              <div
+                onClick={() => handleDeleteToDo(index)}
+                className="cursor-pointer text-sec-color ml-2"
+              >
+                <DeleteRoundedIcon />
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
+
     </div>
   );
 }
