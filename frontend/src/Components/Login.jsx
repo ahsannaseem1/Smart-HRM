@@ -6,8 +6,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import InputField from "./InputField";
 import validator from "validator";
+import { useDispatch } from 'react-redux';
+import  {setEmployeeData}  from '../state/index';
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate=useNavigate();
 
   const [formData, setFormData] = useState({
@@ -60,6 +63,7 @@ const Login = () => {
       );
 
       if (response.data) {
+        dispatch(setEmployeeData(response.data));
         setUser(response.data);
         console.log(response.data);
         navigate(`/HR/dashboard/id=${response.data.user._id}`, {state: { data:response.data} });

@@ -4,8 +4,13 @@ import DashboardContent from "./DashboardContent";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { useLocation } from "react-router-dom";
+import { useSelector } from 'react-redux'; // Import the useSelector hook
+
 
 function Dashboard() {
+  const employeeData = useSelector(state => state.EmployeeData);
+  console.log(employeeData);
+
   const location = useLocation();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
