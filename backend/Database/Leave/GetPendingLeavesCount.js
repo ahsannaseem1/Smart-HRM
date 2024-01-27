@@ -30,6 +30,7 @@ async function countPendingLeaves(organizationId) {
     }
 }
 
+
 module.exports = {
-    countPendingLeaves
+    countPendingLeaves,
 };
