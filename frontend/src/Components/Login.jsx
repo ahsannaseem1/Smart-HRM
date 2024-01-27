@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import LoginImage from "../images/log1.jpg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
@@ -7,9 +8,11 @@ import InputField from "./InputField";
 import validator from "validator";
 
 const Login = () => {
+  const navigate=useNavigate();
+
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "muhammad@devsinc.com",
+    password: "123456",
   });
 
   const [errors, setErrors] = useState({});
@@ -59,6 +62,7 @@ const Login = () => {
       if (response.data) {
         setUser(response.data);
         console.log(response.data);
+        navigate(`/HR/dashboard/id=${response.data.user._id}`, {state: { data:response.data} });
       }
     } catch (error) {
       console.log(error);
@@ -129,7 +133,7 @@ const Login = () => {
 
             {/* Submit Button */}
             <div className="mb-4">
-              <button className="flex justify-center bg-sec-color text-white p-1 rounded cursor-pointer w-full mt-4">
+              <button className="flex justify-center bg-sec-color text-white p-1 rounded cursor-pointer w-full mt-4 active:text-sec-color active:bg-white">
                 <LoginOutlinedIcon className="mr-2" />
                 <p className="text-lg font-bold">Login</p>
               </button>

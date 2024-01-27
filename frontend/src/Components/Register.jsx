@@ -7,6 +7,7 @@ import InputField from "./InputField";
 import validator from 'validator'
 
 const Register = () => {
+  
   const employeesOptions = [
     { start: 1, end: 10, label: "1 - 10" },
     { start: 11, end: 20, label: "11 - 20" },

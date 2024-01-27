@@ -1,16 +1,32 @@
-// src/components/Dashboard.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import DashboardContent from "./DashboardContent";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import { useLocation } from "react-router-dom";
 
 function Dashboard() {
+  const location = useLocation();
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [userData, setUserData] = useState('');
+  const [organizationData, setOrganizationData] = useState(null);
+
+  useEffect(() => {
+    setUserData(location.state?.data);
+    if (location.state?.data) {
+      setOrganizationData({
+        totalEmployees: location.state.data.employeeData.length,
+        totalDepartments: location.state.data.departments?.uniqueDepartmentsCount || 0,
+        totalLeaveRequest: location.state.data.totalLeavesRequestPending || 0,
+      });
+    }
+  }, [location.state?.data]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
@@ -20,7 +36,7 @@ function Dashboard() {
           onClick={toggleSidebar}
           className="bg-gray-100 text-black mt-5 ml-5 p-2 rounded-full"
         >
-          {isSidebarOpen ? <CloseRoundedIcon></CloseRoundedIcon> : <MenuRoundedIcon></MenuRoundedIcon>}
+          {isSidebarOpen ? <CloseRoundedIcon /> : <MenuRoundedIcon />}
         </button>
       </div>
 
@@ -34,7 +50,8 @@ function Dashboard() {
         }`}
       >
         <main className="flex-1 overflow-x-hidden overflow-y-auto">
-          <DashboardContent />
+          {/* Conditional rendering based on organizationData */}
+          {organizationData && <DashboardContent data={organizationData} />}
         </main>
       </div>
     </div>
