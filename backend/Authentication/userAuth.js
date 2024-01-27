@@ -1,5 +1,6 @@
 const { MongoClient } = require("mongodb");
 const {getUserData}=require('./utilities/getUserData');
+const {countPendingLeaves} =require('../Database/Leave/GetPendingLeavesCount');
 const bcrypt = require("bcrypt");
 require('dotenv').config();
 
@@ -30,7 +31,8 @@ const authenticateUser = async (email, password) => {
 
         if (hrUser && await bcrypt.compare(password, hrUser.password)) {
             const employeeData=await getUserData('Employees',hrUser.organizationId);
-            return { userType: "hr", user: hrUser,employeeData:employeeData };
+            const totalLeavesRequestPending = await countPendingLeaves(hrUser.organizationId)
+            return { userType: "hr", user: hrUser,employeeData:employeeData,totalLeavesRequestPending };
         }
 
         // Check if the email exists in the Employees collection
