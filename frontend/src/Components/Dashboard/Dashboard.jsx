@@ -17,16 +17,27 @@ function Dashboard() {
   const [userData, setUserData] = useState('');
   const [organizationData, setOrganizationData] = useState(null);
 
-  useEffect(() => {
-    setUserData(location.state?.data);
-    if (location.state?.data) {
+  // useEffect(() => {
+  //   setUserData(location.state?.data);
+  //   if (location.state?.data) {
+  //     setOrganizationData({
+  //       totalEmployees: location.state.data.employeeData.length,
+  //       totalDepartments: location.state.data.departments?.uniqueDepartmentsCount || 0,
+  //       totalLeaveRequest: location.state.data.totalLeavesRequestPending || 0,
+  //     });
+  //   }
+  // }, [location.state?.data]);
+
+  useEffect(()=>{
+    setUserData(employeeData);
+    if(employeeData){
       setOrganizationData({
-        totalEmployees: location.state.data.employeeData.length,
-        totalDepartments: location.state.data.departments?.uniqueDepartmentsCount || 0,
-        totalLeaveRequest: location.state.data.totalLeavesRequestPending || 0,
+        totalEmployees: employeeData.employeeData.length || 0,
+        totalDepartments: employeeData.departments?.uniqueDepartmentsCount || 0,
+        totalLeaveRequest: employeeData.totalLeavesRequestPending || 0,
       });
     }
-  }, [location.state?.data]);
+  },[employeeData]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
