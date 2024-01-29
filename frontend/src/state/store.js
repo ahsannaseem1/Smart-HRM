@@ -19,4 +19,3 @@ export const store = configureStore({
     }),
 });
 export const persistor = persistStore(store);
-// persistor is showing me that it is unknown word?

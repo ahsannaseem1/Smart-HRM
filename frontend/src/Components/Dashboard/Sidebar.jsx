@@ -22,7 +22,6 @@ function Sidebar({ isOpen, onClose }) {
     setIsSidebarOpen(!isSidebarOpen);
   };
   const employeeData = useSelector((state) => state.EmployeeData);
-  console.log(employeeData);
 
   const location = useLocation();
 
@@ -67,7 +66,7 @@ function Sidebar({ isOpen, onClose }) {
         <nav>
           <ul className="space-y-1 w-full">
             <SidebarItem
-              to="/dashboard"
+              to="/HR/dashboard"
               label="Dashboard"
               isActive={isActive("/dashboard")}
               onClose={onClose}
