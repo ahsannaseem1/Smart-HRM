@@ -66,7 +66,7 @@ const Login = () => {
         dispatch(setEmployeeData(response.data));
         setUser(response.data);
         console.log(response.data);
-        navigate(`/HR/dashboard/id=${response.data.user._id}`, {state: { data:response.data} });
+        navigate(`/HR/dashboard`, {state: { data:response.data} });
       }
     } catch (error) {
       console.log(error);

@@ -30,7 +30,7 @@ function DashboardContent(props) {
 
   return (
     <div className="p-6 mt-2">
-      <DashboardOverview />
+      <DashboardOverview pageName="Dashboard" />
       <div className="grid grid-cols-2 gap-4">
         <DashboardStat label="Total Employees" value={props.data.totalEmployees} />
         <DashboardStat label="Departments" value={props.data.totalDepartments} />

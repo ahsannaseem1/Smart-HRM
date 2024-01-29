@@ -7,6 +7,7 @@ import FAQ from "./Components/FAQ";
 import Footer from "./Components/Footer";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
+import Department from "./Components/Dashboard/Departments/Department";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -29,7 +30,9 @@ function App() {
           <Route
           path="/login" element={<Login></Login>}></Route>
           <Route 
-          path="/HR/dashboard/:id" element={<Dashboard></Dashboard>} />
+          path="/HR/dashboard" element={<Dashboard></Dashboard>} />
+                  <Route 
+          path="/dashboard/departments" element={<Department></Department>} />
           <Route
           path="/register" element={<Register></Register>}></Route>
         </Routes>
