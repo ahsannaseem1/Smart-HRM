@@ -3,7 +3,7 @@ import axios from "axios";
 import RegisterImage from "../images/reg7.jpg";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import InputField from "./InputField";
+import InputField from "./Styles/InputField";
 import validator from 'validator'
 
 const Register = () => {

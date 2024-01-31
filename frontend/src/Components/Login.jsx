@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import LoginImage from "../images/log1.jpg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
-import InputField from "./InputField";
+import InputField from "./Styles/InputField";
 import validator from "validator";
 import { useDispatch } from 'react-redux';
 import  {setEmployeeData}  from '../state/index';

@@ -57,7 +57,7 @@ function Sidebar({ isOpen, onClose }) {
             className="w-12 h-12 rounded-full mb-1"
           />
           <div className="text-center">
-            <p className="text-white text-lg font-semibold mt-1">Sameer Ali</p>
+            <p className="text-white text-lg font-semibold mt-1">{employeeData.user.name}</p>
             <p className="text-gray-300 text-sm">HR Manager</p>
           </div>
         </div>
