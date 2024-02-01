@@ -6,6 +6,7 @@ import Sidebar from '../../Sidebar';
 import Add from '@mui/icons-material/Add';
 import { useSelector } from 'react-redux';
 import DashboardOverview from '../../DashboardOverview';
+import UpdateData from '../../../UpdateData/UpdateData';
 
 const AddEmployee = () => {
   const employeeData = useSelector((state) => state.EmployeeData);
@@ -96,6 +97,8 @@ const AddEmployee = () => {
         if(response){
             setApiError('')
             console.log(response.data);
+            // await UpdateData();
+           
 
         }
         setFormData({
@@ -112,8 +115,8 @@ const AddEmployee = () => {
         });
     } catch (error) {
         // Handle error
-        setApiError(error.response.data.error)
         console.error(error.response.data.error);
+        // setApiError(error.response.data.error)
     }
   };
   return (
