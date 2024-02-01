@@ -1,14 +1,15 @@
 import React from "react";
 import Dashboard from "./Components/Dashboard/Dashboard";
-import Navbar from "./Components/Navbar/Navbar";
-import Pricing from "./Components/Pricing";
-import Testimonial from "./Components/Testimonial";
-import FAQ from "./Components/FAQ";
-import Footer from "./Components/Footer";
+import Home from "./Components/Intro/Home";
+import Pricing from "./Components/Intro/Pricing";
+import Testimonial from "./Components/Intro/Testimonial";
+import WhyUs from "./Components/Intro/WhyUs";
+import FAQ from "./Components/Intro/FAQ";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
 import Department from "./Components/Dashboard/Departments/Department";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Footer from "./Components/Intro/Footer";
 
 function App() {
   return (
@@ -19,8 +20,9 @@ function App() {
             path="/"
             element={
               <>
-                <Navbar></Navbar>
+                <Home></Home>
                 <Pricing></Pricing>
+                <WhyUs></WhyUs>
                 <Testimonial></Testimonial>
                 <FAQ></FAQ>
                 <Footer></Footer>
