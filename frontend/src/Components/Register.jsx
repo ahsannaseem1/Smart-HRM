@@ -125,6 +125,8 @@ const Register = () => {
             value={formData.orgName}
             error={errors.orgName}
             onChange={handleInputChange}
+            focusColor="white"
+            top="6"
           />
 
           {/* Email */}
@@ -137,6 +139,8 @@ const Register = () => {
             value={formData.email}
             error={errors.email}
             onChange={handleInputChange}
+            focusColor="white"
+            top="6"
           />
 
           {/* Password */}
@@ -149,6 +153,8 @@ const Register = () => {
             value={formData.password}
             error={errors.password}
             onChange={handleInputChange}
+            focusColor="white"
+            top="6"
           />
 
           {/* Confirm Password */}
@@ -161,6 +167,8 @@ const Register = () => {
             value={formData.confirmPassword}
             error={errors.confirmPassword}
             onChange={handleInputChange}
+            focusColor="white"
+            top="6"
           />
 
           {/* Address */}
@@ -173,6 +181,8 @@ const Register = () => {
             value={formData.address}
             error={errors.address}
             onChange={handleInputChange}
+            focusColor="white"
+            top="6"
           />
 
           {/* Phone Number */}
@@ -185,6 +195,8 @@ const Register = () => {
             value={formData.phoneNumber}
             error={errors.phoneNumber}
             onChange={handleInputChange}
+            focusColor="white"
+            top="6"
           />
 
           {/* Number of Employees */}

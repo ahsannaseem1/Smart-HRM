@@ -6,12 +6,12 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import InputField from "./Styles/InputField";
 import validator from "validator";
-import { useDispatch } from 'react-redux';
-import  {setEmployeeData}  from '../state/index';
+import { useDispatch } from "react-redux";
+import { setEmployeeData } from "../state/index";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "muhammad@devsinc.com",
@@ -66,7 +66,7 @@ const Login = () => {
         dispatch(setEmployeeData(response.data));
         setUser(response.data);
         console.log(response.data);
-        navigate(`/HR/dashboard`, {state: { data:response.data} });
+        navigate(`/HR/dashboard`, { state: { data: response.data } });
       }
     } catch (error) {
       console.log(error);
@@ -105,6 +105,8 @@ const Login = () => {
                 value={formData.email}
                 autoComplete="off"
                 onChange={handleInputChange}
+                focusColor="white"
+                top="6"
               />
               {errors.email && (
                 <p className="text-red-800 font-bold text-xs text-left">
@@ -122,6 +124,8 @@ const Login = () => {
                 value={formData.password}
                 autoComplete="off"
                 onChange={handleInputChange}
+                focusColor="white"
+                top="6"
               />
               {errors.password && (
                 <p className="text-red-800 font-bold text-xs text-left">

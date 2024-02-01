@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const InputField = ({ label, type, id, name, placeholder, autoComplete, value, error, onChange }) => {
+const InputField = ({ label, type, id, name, placeholder, autoComplete, value, error, onChange,focusColor,top }) => {
     const [isFocused, setIsFocused] = useState(false);
   
     const handleInputFocus = () => {
@@ -16,7 +16,7 @@ const InputField = ({ label, type, id, name, placeholder, autoComplete, value, e
         <label
           htmlFor={id}
           className={`absolute transition-all duration-300 ${
-            (isFocused || value) ? "text-sm  text-white -top-6 left-1" : "top-2 left-3 md:left-3 sm:left-2 sm:text-xs md:text-sm lg:text-sm text-gray-500"
+            (isFocused || value) ? `text-sm  text-${focusColor} -top-${top} left-1` : "top-2 left-3 md:left-3 sm:left-2 sm:text-xs md:text-sm lg:text-sm text-gray-500"
           }`}
         >
           {label}

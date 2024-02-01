@@ -2,12 +2,16 @@ const express = require('express');
 
 const {addEmployee}=require('../Database/addEmployee');
 const {verifyEmailDomain}=require('./utilities/VerifyEmailDomain');
+const {getOrganizationName}=require('../Database/GetOrganizationData/GetOrganizationName');
  
 const router=express.Router();
 
 router.post('/', async (req, res) => {
 
-   const {organizationId,organizationName, name, email, password, salary, position, contact, dateOfBirth, department, employeeId, allowances, leaves}=req.body
+   const {organizationId, name, email, password, salary, position, contact, dateOfBirth, department, employeeId, allowances, leaves}=req.body
+   
+   const organizationName=await getOrganizationName(organizationId);
+
    const result= verifyEmailDomain(email,organizationName);
    console.log(result);
     if(!result){
