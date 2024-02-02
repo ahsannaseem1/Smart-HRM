@@ -1,8 +1,8 @@
 const express = require('express');
 const axios = require('axios');
 const { MongoClient, Binary } = require('mongodb');
-const { GetApplicantsData } = require('../Database/GetApplicantsData');
-const {addRanking}=require('../Database/addRankings')
+const { GetApplicantsData } = require('../../Database/Applicant/GetApplicantsData');
+const {addRanking}=require('../../Database/Applicant/addRankings')
 
 const app = express();
 

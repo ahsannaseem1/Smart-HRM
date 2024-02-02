@@ -1,12 +1,13 @@
 const { MongoClient } = require("mongodb");
 const bcrypt = require("bcrypt");
 require('dotenv').config();
+const {generateHash}=require('../utilities/generatePasswordHash')
 
-const createHash = async (password) => {
-  const saltRounds = 10;
-  const salt = await bcrypt.genSalt(saltRounds);
-  return bcrypt.hash(password, salt);
-};
+// const createHash = async (password) => {
+//   const saltRounds = 10;
+//   const salt = await bcrypt.genSalt(saltRounds);
+//   return bcrypt.hash(password, salt);
+// };
 
 const uri = process.env.DB_URI;
 const dbName = process.env.DB_NAME;
@@ -25,7 +26,7 @@ const addOrganization = async (
   contact,
   password
 ) => {
-  const hashedPassword = await createHash(password);
+  const hashedPassword = await generateHash(password);
 
   try {
     await client.connect();

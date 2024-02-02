@@ -1,10 +1,10 @@
 const { MongoClient } = require("mongodb");
-const { generateHash } = require("./utilities/generatePasswordHash");
+const { generateHash } = require("../utilities/generatePasswordHash");
 const { getUserData } = require("../Authentication/utilities/getUserData");
 const {
   countPendingLeaves,
-} = require("../Database/Leave/GetPendingLeavesCount");
-const { countUniqueDepartments } = require("../Database/countDepartments");
+} = require("../Leave/GetPendingLeavesCount");
+const { countUniqueDepartments } = require("../GetOrganizationData/countDepartments");
 require("dotenv").config();
 
 const uri = process.env.DB_URI;

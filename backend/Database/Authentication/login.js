@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 const {getUserData}=require('./utilities/getUserData');
-const {countPendingLeaves} =require('../Database/Leave/GetPendingLeavesCount');
-const {countUniqueDepartments}=require('../Database/countDepartments')
+const {countPendingLeaves} = require('../Leave/GetPendingLeavesCount');
+const {countUniqueDepartments}=require('../GetOrganizationData/countDepartments')
 const bcrypt = require("bcrypt");
 require('dotenv').config();
 

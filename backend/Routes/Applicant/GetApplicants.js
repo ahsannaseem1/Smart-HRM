@@ -1,7 +1,7 @@
 // server.js (or app.js)
 const express = require('express');
 const { MongoClient } = require('mongodb');
-const {GetApplicants}=require('../Database/getApplicants')
+const {GetApplicants}=require('../../Database/Applicant/getApplicants')
 
 const router = express.Router();
 

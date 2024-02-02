@@ -1,8 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 
-const { authenticateUser } = require("../Authentication/userAuth");
-
+const { authenticateUser } = require("../../Database/Authentication/login");
 const router = express.Router();
 
 router.post("/", async (req, res) => {

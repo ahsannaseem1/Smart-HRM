@@ -1,8 +1,8 @@
 const express = require('express');
 
-const {addEmployee}=require('../Database/addEmployee');
-const {verifyEmailDomain}=require('./utilities/VerifyEmailDomain');
-const {getOrganizationName}=require('../Database/GetOrganizationData/GetOrganizationName');
+const {addEmployee}=require('../../Database/AddUser/addEmployee');
+const {verifyEmailDomain}=require('../utilities/VerifyEmailDomain');
+const {getOrganizationName}=require('../../Database/GetOrganizationData/GetOrganizationName');
  
 const router=express.Router();
 

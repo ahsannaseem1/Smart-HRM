@@ -1,7 +1,7 @@
 const express = require('express');
 
-const {addHR}=require('../Database/addHR');
-const {verifyEmailDomain}=require('./utilities/VerifyEmailDomain')
+const {addHR}=require('../../Database/AddUser/addHR');
+const {verifyEmailDomain}=require('../utilities/VerifyEmailDomain')
 
 const router=express.Router();
 
