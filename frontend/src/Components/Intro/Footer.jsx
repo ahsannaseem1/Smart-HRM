@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Person2RoundedIcon from "@mui/icons-material/Person2Rounded";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import InputField from "../InputField";
+import InputField from "../Styles/InputField";
 
 const Footer = () => {
   const [contactformData, setContactFormData] = useState({
