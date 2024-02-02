@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {addOrganization}=require('../Database/addOrganization');
+const {addOrganization}=require('../../Database/AddOrganization/addOrganization');
 const router = express.Router();
 
 router.post('/', async (req, res) => {

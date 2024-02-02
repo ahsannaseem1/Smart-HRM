@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 require('dotenv').config();
-const {generateHash}=require('./utilities/generatePasswordHash');
+const {generateHash}=require('../utilities/generatePasswordHash');
 
 const uri =process.env.DB_URI;
 const dbName = process.env.DB_NAME;
