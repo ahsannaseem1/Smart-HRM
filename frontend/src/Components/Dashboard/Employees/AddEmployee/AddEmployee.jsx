@@ -6,15 +6,18 @@ import Sidebar from '../../Sidebar';
 import Add from '@mui/icons-material/Add';
 import { useSelector } from 'react-redux';
 import DashboardOverview from '../../DashboardOverview';
-import UpdateData from '../../../UpdateData/UpdateData';
+import { useDispatch } from "react-redux";
+import { setEmployeeData } from '../../../../state';
+import { useNavigate} from 'react-router-dom';
 
 const AddEmployee = () => {
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
   const employeeData = useSelector((state) => state.EmployeeData);
-  console.log(employeeData);
-  console.log(employeeData.user.organizationId);
 
   const [formData, setFormData] = useState({
     organizationId: employeeData.user.organizationId,
+    hrEmail:employeeData.user.email,
     employeeId: '021',
     name: 'usama',
     position: 'software engineer',
@@ -94,13 +97,13 @@ const AddEmployee = () => {
         setApiError('')
         const response = await axios.post('http://localhost:5000/AddEmployee', formData);
 
-        if(response){
+        if(response.data){
+          dispatch(setEmployeeData(response.data.data));
             setApiError('')
-            console.log(response.data);
-            // await UpdateData();
-           
-
-        }
+            console.log(response.data.data);
+            navigate('/HR/dashboard');
+ 
+ }
         setFormData({
             employeeId: '',
             name: '',
@@ -115,8 +118,8 @@ const AddEmployee = () => {
         });
     } catch (error) {
         // Handle error
-        console.error(error.response.data.error);
-        // setApiError(error.response.data.error)
+        console.error(error);
+        setApiError(error.response.data.error)
     }
   };
   return (
