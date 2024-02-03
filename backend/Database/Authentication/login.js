@@ -1,7 +1,6 @@
 const { MongoClient } = require("mongodb");
 const {getUserData}=require('./utilities/getUserData');
-const {countPendingLeaves} = require('../Leave/GetPendingLeavesCount');
-const {countUniqueDepartments}=require('../GetOrganizationData/countDepartments')
+const {getHrAndEmployee}=require('../GetOrganizationData/GetHRandEmployee');
 const bcrypt = require("bcrypt");
 require('dotenv').config();
 
@@ -9,9 +8,7 @@ const uri = process.env.DB_URI;
 const dbName = 'Smart_HRM';
 
 const authenticateUser = async (email, password) => {
-    const client = new MongoClient(uri
-        // , { useNewUrlParser: true, useUnifiedTopology: true }
-        );
+    const client = new MongoClient(uri);
 
     try {
         await client.connect();
@@ -31,10 +28,7 @@ const authenticateUser = async (email, password) => {
         const hrUser = await hrCollection.findOne({ "email": email });
 
         if (hrUser && await bcrypt.compare(password, hrUser.password)) {
-            const employeeData=await getUserData('Employees',hrUser.organizationId);
-            const totalLeavesRequestPending = await countPendingLeaves(hrUser.organizationId);
-            const departments=await countUniqueDepartments(hrUser.organizationId)
-            return { userType: "hr", user: hrUser,employeeData:employeeData,totalLeavesRequestPending,departments };
+            return {userType,user,employeeData,totalLeavesRequestPending,departments}=await getHrAndEmployee(hrUser.email,hrUser.organizationId);
         }
 
         // Check if the email exists in the Employees collection
