@@ -1,10 +1,6 @@
 const { MongoClient } = require("mongodb");
 const { generateHash } = require("../utilities/generatePasswordHash");
-const { getUserData } = require("../Authentication/utilities/getUserData");
-const {
-  countPendingLeaves,
-} = require("../Leave/GetPendingLeavesCount");
-const { countUniqueDepartments } = require("../GetOrganizationData/countDepartments");
+const { getHrAndEmployee } = require("../GetOrganizationData/GetHRandEmployee");
 require("dotenv").config();
 
 const uri = process.env.DB_URI;
@@ -62,25 +58,21 @@ const addEmployee = async (
 
     const result = await col.insertOne(employeeDocument);
     if (result) {
-      const hrCollection = db.collection("HR");
-      const hrUser = await hrCollection.findOne({ email: hrEmail });
-      const employeeData = await getUserData("Employees", organizationId);
-      const totalLeavesRequestPending = await countPendingLeaves(
-        organizationId
-      );
-      const departments = await countUniqueDepartments(organizationId);
-      return {
-        data: {
-          // message: "Employee added successfully",
-          userType: "hr",
-          user: hrUser,
-          employeeData: employeeData,
-          totalLeavesRequestPending,
-          departments,
-        },
-        error: null,
+      const {
+        userType,
+        user,
+        employeeData,
+        totalLeavesRequestPending,
+        departments,
+      } = await getHrAndEmployee(hrEmail, organizationId);
+      const data = {
+        userType: userType,
+        user: user,
+        employeeData: employeeData,
+        totalLeavesRequestPending: totalLeavesRequestPending,
+        departments: departments,
       };
-      // return{message:"Employee added successfully",error:null}
+      return { data: data, error: null };
     }
   } catch (err) {
     console.log(err.stack);
