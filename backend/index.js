@@ -11,6 +11,7 @@ const GetTopApplicants=require('./Routes/Applicant/GetTopApplicants');
 const RequestLeave=require('./Routes/Leave/RequestLeave');
 const AcceptOrRejectLeave=require('./Routes/Leave/AcceptOrRejectLeave');
 const GetLeavesData=require('./Routes/Leave/GetLeavesData');
+const AddAttendance=require('./Routes/Attendance/AddAttendance');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/GetTopApplicants',GetTopApplicants);
 app.use('/RequestLeave',RequestLeave);
 app.use('/AcceptOrRejectLeave',AcceptOrRejectLeave);
 app.use('/GetLeavesData',GetLeavesData);
+app.use('/AddAttendance',AddAttendance);
 
 
 const port = process.env.PORT || 5000;
