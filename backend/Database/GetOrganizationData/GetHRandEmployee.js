@@ -1,35 +1,33 @@
-require('dotenv').config();
-const { MongoClient } = require('mongodb');
-const {countUniqueDepartments}=require('./countDepartments');
-const {countPendingLeaves} = require('../Leave/GetPendingLeavesCount');
-
+const { countUniqueDepartments } = require("./countDepartments");
+const { countPendingLeaves } = require("../Leave/GetPendingLeavesCount");
+const { connectToMongoDB, closeMongoDBConnection } = require("../connectDB");
 
 async function getHrAndEmployee(email, organizationId) {
-    const uri = process.env.DB_URI;
-    const dbName = process.env.DB_NAME;
+  try {
+    const db = await connectToMongoDB();
 
-    const client = new MongoClient(uri);
+    const hrCollection = db.collection("HR");
+    const employeeCollection = db.collection("Employees");
 
-    try {
-        await client.connect();
-
-        const db = client.db(dbName);
-
-        const hrCollection = db.collection('HR');
-        const employeeCollection = db.collection('Employees');
-
-        const hrUser = await hrCollection.findOne({ "email":email });
-        const employeeData = await employeeCollection.find({organizationId: organizationId }).toArray();
-        const departments=await countUniqueDepartments(organizationId)
-        const totalLeavesRequestPending = await countPendingLeaves(organizationId);
-        return { userType: "HR", user: hrUser,employeeData:employeeData,totalLeavesRequestPending,departments };
-
-    } catch (error) {
-        console.error('Error connecting to MongoDB Atlas:', error);
-        throw error;
-    } finally {
-        await client.close();
-    }
+    const hrUser = await hrCollection.findOne({ email: email });
+    const employeeData = await employeeCollection
+      .find({ organizationId: organizationId })
+      .toArray();
+    const departments = await countUniqueDepartments(organizationId);
+    const totalLeavesRequestPending = await countPendingLeaves(organizationId);
+    return {
+      userType: "HR",
+      user: hrUser,
+      employeeData: employeeData,
+      totalLeavesRequestPending,
+      departments,
+    };
+  } catch (error) {
+    console.error("Error connecting to MongoDB Atlas:", error);
+    throw error;
+  } finally {
+    await closeMongoDBConnection();
+  }
 }
 
-module.exports = {getHrAndEmployee};
+module.exports = { getHrAndEmployee };

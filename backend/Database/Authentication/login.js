@@ -1,6 +1,6 @@
 const { getUserData } = require("./utilities/getUserData");
 const { getHrAndEmployee } = require("../GetOrganizationData/GetHRandEmployee");
-const { connectToMongoDB } = require("../connectDB");
+const { connectToMongoDB, closeMongoDBConnection } = require("../connectDB");
 const bcrypt = require("bcrypt");
 
 const authenticateUser = async (email, password) => {
@@ -47,7 +47,7 @@ const authenticateUser = async (email, password) => {
       error: "An error occurred while authenticating user.",
     };
   } finally {
-    await client.close();
+    await closeMongoDBConnection();
   }
 };
 

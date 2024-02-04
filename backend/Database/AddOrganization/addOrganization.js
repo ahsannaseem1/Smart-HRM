@@ -1,14 +1,6 @@
-const { MongoClient } = require("mongodb");
-require('dotenv').config();
-const {generateHash}=require('../utilities/generatePasswordHash')
-
-const uri = process.env.DB_URI;
-const dbName = process.env.DB_NAME;
-
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+require("dotenv").config();
+const { generateHash } = require("../utilities/generatePasswordHash");
+const { connectToMongoDB, closeMongoDBConnection } = require("../connectDB");
 
 const addOrganization = async (
   name,
@@ -23,7 +15,8 @@ const addOrganization = async (
 
   try {
     await client.connect();
-    const col = client.db(dbName).collection("Organizations");
+    const db = await connectToMongoDB();
+    const col = db.collection("Organizations");
 
     // Check if email or name is already registered
     const existingOrganization = await col.findOne({
@@ -33,7 +26,9 @@ const addOrganization = async (
     if (existingOrganization) {
       return {
         organizationId: null,
-        error: `${existingOrganization.email === email ? email : name} is already registered.`,
+        error: `${
+          existingOrganization.email === email ? email : name
+        } is already registered.`,
       };
     }
 
@@ -50,7 +45,7 @@ const addOrganization = async (
     const result = await col.insertOne(organizationDocument);
     console.log(result);
     const organizationId = result.insertedId;
-    const organizationName=name;
+    const organizationName = name;
     return {
       organizationId,
       organizationName,
@@ -60,7 +55,7 @@ const addOrganization = async (
     console.error(err.stack);
     return {
       organizationId: null,
-      organizationName:null,
+      organizationName: null,
       error: err.message,
     };
   } finally {

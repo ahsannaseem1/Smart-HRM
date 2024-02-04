@@ -1,15 +1,6 @@
-const { MongoClient } = require("mongodb");
 const { generateHash } = require("../utilities/generatePasswordHash");
 const { getHrAndEmployee } = require("../GetOrganizationData/GetHRandEmployee");
-require("dotenv").config();
-
-const uri = process.env.DB_URI;
-const dbName = process.env.DB_NAME;
-
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const { connectToMongoDB, closeMongoDBConnection } = require("../connectDB");
 
 const addEmployee = async (
   organizationId,
@@ -27,8 +18,7 @@ const addEmployee = async (
   leaves
 ) => {
   try {
-    await client.connect();
-    const db = client.db(dbName);
+    const db = await connectToMongoDB();
     const col = db.collection("Employees");
 
     // Check if employee with the same email already exists
@@ -77,7 +67,7 @@ const addEmployee = async (
   } catch (err) {
     console.log(err.stack);
   } finally {
-    await client.close();
+    await closeMongoDBConnection();
   }
 };
 

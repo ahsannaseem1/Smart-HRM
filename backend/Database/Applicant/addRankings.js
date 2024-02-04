@@ -1,35 +1,31 @@
-
-const { MongoClient, Binary } = require('mongodb');
-const { ObjectId } = require('mongodb');
-
-const uri = process.env.DB_URI;
-const dbName = process.env.DB_NAME;
+const { ObjectId } = require("mongodb");
+const { connectToMongoDB, closeMongoDBConnection } = require("../connectDB");
 
 async function addRanking(flaskApiResponse) {
-    try {
-        const mongoClient = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        await mongoClient.connect();
+  try {
+    const db = await connectToMongoDB();
+    const collection = db.collection("Applicants");
 
-        const database = mongoClient.db(dbName);
-        const collection = database.collection('Applicants');
+    for (const applicantWithRanking of flaskApiResponse) {
+      const applicantId = applicantWithRanking.id;
 
-        for (const applicantWithRanking of flaskApiResponse) {
-            const applicantId = applicantWithRanking.id;
+      console.log("Updating document with _id:", applicantId);
 
-            console.log('Updating document with _id:', applicantId);
+      const ranking = applicantWithRanking.ranking;
 
-            const ranking = applicantWithRanking.ranking;
-
-            const result = await collection.updateOne({ _id: new ObjectId(applicantId) }, { $set: { ranking: ranking } });
-        }
-
-        await mongoClient.close();
-        console.log('MongoDB collection updated successfully');
-    } catch (error) {
-        console.error('Error updating MongoDB collection:', error);
-        throw error;
+      const result = await collection.updateOne(
+        { _id: new ObjectId(applicantId) },
+        { $set: { ranking: ranking } }
+      );
     }
+
+    await closeMongoDBConnection();
+    console.log("MongoDB collection updated successfully");
+  } catch (error) {
+    console.error("Error updating MongoDB collection:", error);
+    throw error;
+  }
 }
-module.exports={
-    addRanking
-}
+module.exports = {
+  addRanking,
+};

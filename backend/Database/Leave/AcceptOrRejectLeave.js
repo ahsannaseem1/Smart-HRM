@@ -1,19 +1,11 @@
-const { MongoClient } = require("mongodb");
-require("dotenv").config();
+const { connectToMongoDB, closeMongoDBConnection } = require("../connectDB");
+
 const { ObjectId } = require("mongodb");
 
-const dbUri = process.env.DB_URI;
-const dbName = process.env.DB_NAME;
-
 async function acceptOrRejectLeave(employeeId, leaveId, status) {
-  const uri = dbUri;
-  const client = new MongoClient(uri);
-
   try {
-    await client.connect();
-
-    const database = client.db(dbName);
-    const employeeCollection = database.collection("Employees");
+    const db = await connectToMongoDB();
+    const employeeCollection = db.collection("Employees");
 
     const result = await employeeCollection.updateOne(
       {
@@ -57,7 +49,7 @@ async function acceptOrRejectLeave(employeeId, leaveId, status) {
   } catch (error) {
     return { error: error, message: null };
   } finally {
-    await client.close();
+    await closeMongoDBConnection();
   }
 }
 

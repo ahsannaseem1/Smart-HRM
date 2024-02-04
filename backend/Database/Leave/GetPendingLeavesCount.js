@@ -1,36 +1,30 @@
-const { MongoClient } = require("mongodb");
-require("dotenv").config();
-
-const dbUri = process.env.DB_URI;
-const dbName = process.env.DB_NAME;
+const { connectToMongoDB, closeMongoDBConnection } = require("../connectDB");
 
 async function countPendingLeaves(organizationId) {
-    const uri = dbUri;
-    const client = new MongoClient(uri);
+  try {
+    const db = await connectToMongoDB();
+    const employeesCollection = db.collection("Employees");
 
-    try {
-        await client.connect();
+    const employees = await employeesCollection
+      .find({ organizationId })
+      .toArray();
 
-        const database = client.db(dbName); 
-        const employeesCollection = database.collection("Employees");
+    const totalPendingLeaves = employees.reduce((count, employee) => {
+      if (employee.leaveRequest) {
+        const pendingLeaves = employee.leaveRequest.filter(
+          (request) => request.status === "pending"
+        ).length;
+        count += pendingLeaves;
+      }
+      return count;
+    }, 0);
 
-        const employees = await employeesCollection.find({ organizationId }).toArray();
-
-        const totalPendingLeaves = employees.reduce((count, employee) => {
-            if (employee.leaveRequest) {
-                const pendingLeaves = employee.leaveRequest.filter(request => request.status === "pending").length;
-                count += pendingLeaves;
-            }
-            return count;
-        }, 0);
-
-        return totalPendingLeaves;
-    } finally {
-        await client.close();
-    }
+    return totalPendingLeaves;
+  } finally {
+    await closeMongoDBConnection();
+  }
 }
 
-
 module.exports = {
-    countPendingLeaves,
+  countPendingLeaves,
 };
