@@ -1,13 +1,15 @@
-const {connectToMongoDB,closeMongoDBConnection}=require('../connectDB')
+const {connectToMongoDB,closeMongoDBConnection}=require('../connectDB');
+const {ObjectId}=require('mongodb');
 
-async function connectToDb(organizationId, jobTitle, jobDescription, location) {
+async function addJob(organizationId, jobTitle, jobDescription, location) {
    
     try {
+        console.log('add job called');
 
         const db = await connectToMongoDB();
         const organizationsCollection = db.collection('Organizations');
 
-        const organization = await organizationsCollection.findOne({ organizationId });
+        const organization = await organizationsCollection.findOne({ _id:new ObjectId(organizationId) });
 
         if (organization) {
             if (!organization.jobs) {
@@ -21,9 +23,10 @@ async function connectToDb(organizationId, jobTitle, jobDescription, location) {
                 status: 'Open'
             });
 
-            await organizationsCollection.updateOne({ organizationId }, { $set: organization });
+            await organizationsCollection.updateOne({ _id:new ObjectId(organizationId) }, { $set: organization });
 
             console.log('Job added successfully!');
+            
         } else {
             console.log('Organization not found!');
         }
@@ -35,4 +38,6 @@ async function connectToDb(organizationId, jobTitle, jobDescription, location) {
 }
 
 // Usage example
-connectToDb('org123', 'Software Engineer', 'Job description...', 'New York');``
+module.exports={
+    addJob
+}
