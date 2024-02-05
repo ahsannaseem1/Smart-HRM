@@ -1,30 +1,33 @@
-const MongoClient = require('mongodb').MongoClient;
+const { connectToMongoDB,closeMongoDBConnection } = require('../connectDB');
+const {ObjectId}=require('mongodb');
 
-
-async function addAllowancesToEmployees() {
-    const uri = 'mongodb+srv://<username>:<password>@<cluster-url>/<database>?retryWrites=true&w=majority';
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
+async function addAllowances(employeeId, allowanceType, allowanceAmount) {
+    console.log(employeeId)
     try {
-        await client.connect();
+        const db = await connectToMongoDB();
+        const collection = db.collection('Employees');
 
-        const database = client.db('<database>');
-        const collection = database.collection('<collection>');
+        // Find employee by ID
+        const employee = await collection.findOne({ _id: new ObjectId (employeeId) });
 
-        // Find employees without allowances
-        const employeesWithoutAllowances = await collection.find({ Allowances: { $exists: false } }).toArray();
+        // If employee exists, add allowance
+        if (employee) {
+            const allowances = employee.Allowances || [];
+            allowances.push({ type: allowanceType, amount: allowanceAmount });
 
-        // Add allowances to employees without allowances
-        for (const employee of employeesWithoutAllowances) {
-            await collection.updateOne({ _id: employee._id }, { $set: { Allowances: [] } });
+            await collection.updateOne({ _id:new ObjectId(employee._id) }, { $set: { Allowances: allowances } });
+
+            console.log('Allowance added successfully!');
+        } else {
+            console.log('Employee not found!');
         }
-
-        console.log('Allowances added successfully!');
     } catch (error) {
-        console.error('Error adding allowances:', error);
+        console.error('Error adding allowance:', error);
     } finally {
-        await client.close();
+        await closeMongoDBConnection();
     }
 }
 
-addAllowancesToEmployees();
+module.exports = {
+    addAllowances
+};

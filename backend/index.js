@@ -14,6 +14,7 @@ const GetLeavesData=require('./Routes/Leave/GetLeavesData');
 const AddAttendance=require('./Routes/Attendance/AddAttendance');
 const AddJob=require('./Routes/Job/AddJob');
 const GetJobs=require('./Routes/Job/GetJobs');
+const AddAllowance=require('./Routes/Allowances/AddAllowance');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/GetLeavesData',GetLeavesData);
 app.use('/AddAttendance',AddAttendance);
 app.use('/AddJob',AddJob)
 app.use('/GetJobs',GetJobs);
+app.use('/AddAllowance',AddAllowance);
 
 
 const port = process.env.PORT || 5000;
