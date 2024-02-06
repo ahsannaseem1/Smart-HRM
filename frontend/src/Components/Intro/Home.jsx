@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSpring, animated } from "react-spring";
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 
 function Home(props) {
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    // Trigger animation on component mount
+    setAnimate(true);
+  }, []);
+
+  // Spring configuration for the fade-in animation
+  const fadeIn = useSpring({
+    opacity: animate ? 1 : 0,
+    marginTop: animate ? 0 : 30, // Increased margin for heading
+    from: { opacity: 0, marginTop: 30 },
+    config: { tension: 30, friction: 18 },
+  });
   return (
     <div className="bg-sec-color h-screen w-screen flex flex-col overflow-x-hidden">
       <header className="w-full px-4 py-4 fixed top-0 backdrop-filter backdrop-blur-sm bg-opacity-70 bg-sec-color z-10">
@@ -42,24 +57,25 @@ function Home(props) {
         </div>
       </header>
 
-      {/* Main Section with Image */}
-      <main className="flex-grow flex items-center justify-center">
+        {/* Main Section with Image */}
+        <main className="flex-grow flex items-center justify-center">
         <div className="w-1/2 text-center">
-          <h2 className="text-white lg:text-5xl font-bold md:text-4xl sm:text-3xl text-2xl leading-8">
+          <animated.h2 style={fadeIn} className="text-white lg:text-5xl font-bold md:text-4xl sm:text-3xl text-2xl leading-8">
             The easy way to <span className="text-bg-color">streamline</span> your HR & Recruitment
-          </h2>
+          </animated.h2>
 
-          <p className="text-gray-300 lg:text-xl mt-6 md:text-lg sm:text-md text-sm ">
+          <animated.p style={{ ...fadeIn, marginTop: 20 }} className="text-gray-300 lg:text-xl mt-6 md:text-lg sm:text-md text-sm">
             Smart HRM is a web-based HR platform that helps Pakistani startup businesses streamline their HR & Payroll processes.
-          </p>
-          <div className="flex justify-center items-center mt-8">
+          </animated.p>
+
+          <animated.div style={{ ...fadeIn, marginTop: 20 }} className="flex justify-center items-center mt-8">
             <button
               className="bg-bg-color px-3 py-1.5 rounded-3xl border-none font-bold text-center cursor-pointer transition duration-400 hover:shadow-lg hover:shadow-gray-400 active:transform active:scale-97 active:shadow-lg"
             >
               <ArrowCircleRightRoundedIcon className="inline-block" style={{ color: 'white' }} />
               <span className="ml-2 text-white">Start for Free</span>
             </button>
-          </div>
+          </animated.div>
         </div>
       </main>
     </div>
