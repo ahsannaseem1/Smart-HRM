@@ -15,7 +15,7 @@ function Home(props) {
     opacity: animate ? 1 : 0,
     marginTop: animate ? 0 : 30, // Increased margin for heading
     from: { opacity: 0, marginTop: 30 },
-    config: { tension: 30, friction: 20 },
+    config: { tension: 30, friction: 18 },
   });
   return (
     <div className="bg-sec-color h-screen w-screen flex flex-col overflow-x-hidden">
