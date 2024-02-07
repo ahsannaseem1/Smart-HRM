@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs');
-const PDFDocument = require('pdfkit');
+const pdf = require('html-pdf');
 require('dotenv').config();
 
 const sendEmail = async (to, subject, payrollInfo) => {
@@ -13,96 +13,138 @@ const sendEmail = async (to, subject, payrollInfo) => {
         },
     });
 
-    // Create a PDF document using pdfkit
+    // Get the current date, day, and time
+    const currentDate = new Date().toLocaleDateString();
+    const currentDay = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(new Date());
+    const currentTime = new Date().toLocaleTimeString();
+
+    // Create HTML content for the PDF
+    const htmlContent = `
+    <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .header {
+            color: #3498db;
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 100px;
+            text-align: center;
+        }
+
+        .info {
+            font-size: 22px;
+            margin-bottom: 10px;
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .table {
+            width: 100%;
+            margin-top: 80px;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .table th {
+            background-color: #3498db;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <div class="header">Payroll Summary</div>
+        <div class="info"><span class="bold">Date:</span>&nbsp;&nbsp; ${currentDate}</div>
+        <div class="info"><span class="bold">Day:</span>&nbsp;&nbsp; ${currentDay}</div>
+        <div class="info"><span class="bold">Time:</span>&nbsp;&nbsp; ${currentTime}</div>
+        <div class="info"><span class="bold">Employee Name:</span>&nbsp;&nbsp; ${payrollInfo.employeeName}</div>
+        <div class="info"><span class="bold">Email:</span>&nbsp;&nbsp; ${payrollInfo.email}</div>
+        <div class="info"><span class="bold">Base Salary:</span>&nbsp;&nbsp; ${payrollInfo.salary}</div>
+        <div class="info"><span class="bold">Month:</span>&nbsp;&nbsp; ${payrollInfo.month}</div>
+        <div class="info"><span class="bold">Year:</span>&nbsp;&nbsp; ${payrollInfo.year}</div>
+        <div class="info"><span class="bold">Total Pay:</span>&nbsp;&nbsp; ${payrollInfo.totalPay}</div>
+        <div class="info"><span class="bold">Bonus:</span>&nbsp;&nbsp; ${payrollInfo.bonus}</div>
+        <div class="info"><span class="bold">Allowances:</span>&nbsp;&nbsp; ${payrollInfo.allowances.total}</div>
+        <div class="info"><span class="bold">Deductions:</span>&nbsp;&nbsp; ${payrollInfo.deductions.total}</div>
+        
+        <table class="table">
+            <tr>
+                <th>Total Pay</th>
+                <th>Bonuses</th>
+                <th>Allowances</th>
+                <th>Deductions</th>
+            </tr>
+            <tr>
+                <td>${payrollInfo.totalPay}</td>
+                <td>${payrollInfo.bonus}</td>
+                <td>${payrollInfo.allowances.total}</td>
+                <td>${payrollInfo.deductions.total}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+
+    
+    `;
+
+    // Create a PDF from the HTML content
     const pdfPath = 'payroll_summary.pdf';
-    const pdfStream = fs.createWriteStream(pdfPath);
-    const pdfDoc = new PDFDocument();
+    pdf.create(htmlContent).toFile(pdfPath, async (err, res) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
 
-    // Add some design elements to the PDF document
-    pdfDoc.fillColor('blue').fontSize(20).text('Payroll Summary', 100, 50);
-    pdfDoc.fillColor('black').fontSize(14).text(`Employee Name: ${payrollInfo.employeeName}`, 100, 100);
-    pdfDoc.fillColor('black').fontSize(14).text(`Salary: ${payrollInfo.salary}`, 100, 120);
-    pdfDoc.fillColor('black').fontSize(14).text(`Month: ${payrollInfo.month}`, 100, 140);
-    pdfDoc.fillColor('black').fontSize(14).text(`Year: ${payrollInfo.year}`, 100, 160);
+        // Email options with attachment
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to,
+            subject,
+            text: 'Please find the attached payroll summary for your reference.',
+            attachments: [
+                {
+                    filename: 'payroll_summary.pdf',
+                    path: pdfPath,
+                },
+            ],
+        };
 
-    // Create a table to display the payroll information
-    const table = {
-        headers: ['Total Pay', 'Bonuses', 'Allowances', 'Deductions'],
-        rows: [
-            [payrollInfo.totalPay, payrollInfo.bonus, payrollInfo.allowances.total, payrollInfo.deductions.total],
-        ],
-    };
+        // Send email
+        await transporter.sendMail(mailOptions);
 
-    // Draw the table
-const tableTop = 200;
-const columnWidth = 120; // Increase the column width
-const rowHeight = 20;
-
-// Draw the header row
-pdfDoc.fillColor('white').rect(100, tableTop, columnWidth * table.headers.length, rowHeight).fill();
-pdfDoc.fillColor('black').fontSize(12);
-table.headers.forEach((header, i) => {
-    pdfDoc.font('Helvetica-Bold');
-    pdfDoc.text(header, 100 + i * columnWidth, tableTop + rowHeight / 2, {
-        width: columnWidth,
-        align: 'center',
+        // Remove the generated PDF file
+        fs.unlinkSync(pdfPath);
     });
-});
-
-// Draw the data rows
-pdfDoc.fillColor('black').fontSize(10);
-table.rows.forEach((row, i) => {
-    // Make the employeeName, salary, etc. columns bold
-    if (i === 0) {
-        pdfDoc.font('Helvetica-Bold');
-    } else {
-        pdfDoc.font('Helvetica');
-    }
-
-    // Adjust the alignment to 'center' for the data rows
-    pdfDoc.text(row[0], 100 + i * columnWidth, tableTop + (i + 1) * rowHeight + rowHeight / 2, {
-        width: columnWidth,
-        align: 'center',
-    });
-    pdfDoc.text(row[1], 100 + columnWidth + i * columnWidth, tableTop + (i + 1) * rowHeight + rowHeight / 2, {
-        width: columnWidth,
-        align: 'center',
-    });
-    pdfDoc.text(row[2], 100 + 2 * columnWidth + i * columnWidth, tableTop + (i + 1) * rowHeight + rowHeight / 2, {
-        width: columnWidth,
-        align: 'center',
-    });
-    pdfDoc.text(row[3], 100 + 3 * columnWidth + i * columnWidth, tableTop + (i + 1) * rowHeight + rowHeight / 2, {
-        width: columnWidth,
-        align: 'center',
-    });
-});
-
-
-
-    // End the PDF document
-    pdfDoc.end();
-    pdfDoc.pipe(pdfStream);
-
-    // Email options with attachment
-    const mailOptions = {
-        from: process.env.EMAIL,
-        to,
-        subject,
-        text: 'Please find the attached payroll summary for your reference.',
-        attachments: [
-            {
-                filename: 'payroll_summary.pdf',
-                path: pdfPath,
-            },
-        ],
-    };
-
-    // Send email
-    await transporter.sendMail(mailOptions);
-
-    // Remove the generated PDF file
-    fs.unlinkSync(pdfPath);
 };
 
 module.exports = {
