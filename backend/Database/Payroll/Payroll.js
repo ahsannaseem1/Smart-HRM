@@ -75,7 +75,7 @@ async function calculatePayroll(organizationId, year, month) {
             };
 
             // Use the email service component
-            await sendEmail("hafizzabdullah999@gmail.com", `Payroll ${month} ${year}`, JSON.stringify(payrollEntry, null, 2));
+            // await sendEmail("hafizzabdullah999@gmail.com", `Payroll ${month} ${year}`, payrollEntry);
 
             return payrollEntry;
         });
@@ -89,7 +89,39 @@ async function calculatePayroll(organizationId, year, month) {
         const log = `Payroll calculation and email sending completed for ${year}-${month}`;
 
         console.log(log);
-
+        const data={
+            
+                "organizationId": "65a53b5d22ee796e64aa8e1f",
+                "employeeId": "65a6da2b7055f2c5966cf8dc",
+                "employeeName": "muhammad",
+                "email": "muhammad@gmail.com",
+                "salary": 130000,
+                "month": "january",
+                "year": "2024",
+                "totalPay": 136000,
+                "bonus": 5000,
+                "allowances": {
+                    "total": 6000,
+                    "types": [
+                        "Medical",
+                        "Transportation"
+                    ]
+                },
+                "deductions": {
+                    "total": 5000,
+                    "types": [
+                        "leaves"
+                    ]
+                },
+                "bonuses": {
+                    "types": [
+                        "Excellent Work"
+                    ]
+                },
+                "_id": "65c3ab85f0889f1d2f5a226b"
+            
+        }
+        await sendEmail("hafizzabdullah999@gmail.com", `Payroll January 2024`, data);
         return {
             data: payroll,
             log,
