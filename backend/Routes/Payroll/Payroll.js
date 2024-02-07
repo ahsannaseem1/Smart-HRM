@@ -1,7 +1,7 @@
 // Import the necessary modules and functions
 const express = require('express');
 const router = express.Router();
-const { calculatePayroll } = require('../../Database/Payroll/Payroll');
+const { calculatePayroll } = require('../../Database/Payroll/payroll');
 
 // Define the route
 router.post('/',async (req, res) => {
