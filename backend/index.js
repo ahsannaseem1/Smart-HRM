@@ -15,6 +15,9 @@ const AddAttendance=require('./Routes/Attendance/AddAttendance');
 const AddJob=require('./Routes/Job/AddJob');
 const GetJobs=require('./Routes/Job/GetJobs');
 const AddAllowance=require('./Routes/Allowances/AddAllowance');
+const AddBonus=require('./Routes/Payroll/Bonus/AddBonus');
+const Deduction=require('./Routes/Payroll/Deduction/Deduction');
+const Payroll=require('./Routes/Payroll/Payroll');
 
 const app = express();
 
@@ -36,6 +39,9 @@ app.use('/AddAttendance',AddAttendance);
 app.use('/AddJob',AddJob)
 app.use('/GetJobs',GetJobs);
 app.use('/AddAllowance',AddAllowance);
+app.use('/AddBonus',AddBonus);
+app.use('/Deduction',Deduction);
+app.use('/Payroll',Payroll);
 
 
 const port = process.env.PORT || 5000;
