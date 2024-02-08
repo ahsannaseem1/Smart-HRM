@@ -1,11 +1,26 @@
 const { connectToMongoDB, closeMongoDBConnection } = require('../connectDB');
-const { sendEmail } = require('./SendMail/sendMail'); // Adjust the path accordingly
+const { sendEmail } = require('./SendMail/sendMail');
+const { getOrganizationName } = require('../GetOrganizationData/GetOrganizationName');
 
 async function calculatePayroll(organizationId, year, month) {
+    const organizationName = await getOrganizationName(organizationId);
+
     try {
         const db = await connectToMongoDB();
         const employeesCollection = db.collection('Employees');
         const payrollCollection = db.collection('payroll');
+
+        // Check if organization has no employees
+        const employeeCount = await employeesCollection.countDocuments({ organizationId });
+        if (employeeCount === 0) {
+            return { data: null, message: `No employees to calculate payroll for ${year}-${month}`, error: null };
+        }
+
+        // Check if payroll is already calculated for all employees in the given month and year
+        const existingPayroll = await payrollCollection.findOne({ organizationId, year, month });
+        if (existingPayroll) {
+            return { data: existingPayroll, message: `Payroll already calculated for ${year}-${month}`, error: null };
+        }
 
         const employees = await employeesCollection.find({ organizationId }).toArray();
 
@@ -53,6 +68,7 @@ async function calculatePayroll(organizationId, year, month) {
 
             const payrollEntry = {
                 organizationId,
+                organizationName, // Store organization name in payroll
                 employeeId: _id,
                 employeeName: name,
                 email,
@@ -89,50 +105,16 @@ async function calculatePayroll(organizationId, year, month) {
         const message = `Payroll calculation and email sending completed for ${year}-${month}`;
 
         console.log(message);
-        const data={
-            
-                "organizationId": "65a53b5d22ee796e64aa8e1f",
-                "employeeId": "65a6da2b7055f2c5966cf8dc",
-                "employeeName": "muhammad",
-                "email": "muhammad@gmail.com",
-                "salary": 130000,
-                "month": "january",
-                "year": "2024",
-                "totalPay": 136000,
-                "bonus": 5000,
-                "allowances": {
-                    "total": 6000,
-                    "types": [
-                        "Medical",
-                        "Transportation"
-                    ]
-                },
-                "deductions": {
-                    "total": 5000,
-                    "types": [
-                        "leaves"
-                    ]
-                },
-                "bonuses": {
-                    "types": [
-                        "Excellent Work"
-                    ]
-                },
-                "_id": "65c3ab85f0889f1d2f5a226b"
-            
-        }
-        await sendEmail("hafizzabdullah999@gmail.com", `Payroll January 2024`, data);
-        return {
 
-            data: payroll,
-            message,
-            error:null
-        };
-    } 
-    catch (error) {
-        return { error: `Error in payroll calculation: ${error.message}`,data:null };
-    }
-        finally {
+        // Send sample email with data for the first employee
+        if (payroll.length > 0) {
+            await sendEmail("hafizzabdullah999@gmail.com", `Payroll ${month} ${year}`, payroll[0]);
+        }
+
+        return { data: payroll, message, error: null };
+    } catch (error) {
+        return { error: `Error in payroll calculation: ${error.message}`, data: null };
+    } finally {
         await closeMongoDBConnection();
     }
 }
