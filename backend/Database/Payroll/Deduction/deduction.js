@@ -33,11 +33,14 @@ async function addDeductionToEmployee(employeeId, deductionType, month, year, de
             );
 
             console.log('Deduction added successfully.');
+            return({error:null});
+
         } else {
             console.log('Employee not found.');
         }
     } catch (error) {
-        console.error('Error adding deduction:', error);
+        
+        return({error:error});
     } finally {
         // Close the MongoDB connection
         await closeMongoDBConnection();

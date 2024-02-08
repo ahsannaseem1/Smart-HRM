@@ -8,9 +8,14 @@ router.post('/',async (req, res) => {
     const { organizationId, year, month } = req.body;
 
     // Call the calculatePayroll function with the provided parameters
-    const data = await calculatePayroll(organizationId, year, month);
+    const {data,message,error }= await calculatePayroll(organizationId, year, month);
+    if(data){
+        res.status(200).json({ data,message });
+    }
+    else if(error){
+        res.status(500).json({ error });
+    }
 
-    res.json({ data });
 });
 
 module.exports = router;

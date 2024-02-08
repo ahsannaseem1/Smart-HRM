@@ -27,6 +27,7 @@ async function addBonus(employeeId, bonusType, date, month, year, bonusAmount) {
             await collection.updateOne({ _id: new ObjectId (employeeId) }, { $set: { bonuses: bonusesArray } });
 
             console.log(`Added bonus to employee with ID: ${employeeId}`);
+            return{error:null}
         } else {
             console.log(`Employee with ID ${employeeId} not found.`);
         }
@@ -34,6 +35,7 @@ async function addBonus(employeeId, bonusType, date, month, year, bonusAmount) {
         await closeMongoDBConnection();
     } catch (error) {
         console.error('Error adding bonus to MongoDB Atlas:', error);
+        return ({error:error});
     }
 }
 

@@ -86,9 +86,9 @@ async function calculatePayroll(organizationId, year, month) {
         // Store the entire payrollEntry in the database
         await payrollCollection.insertMany(payroll);
 
-        const log = `Payroll calculation and email sending completed for ${year}-${month}`;
+        const message = `Payroll calculation and email sending completed for ${year}-${month}`;
 
-        console.log(log);
+        console.log(message);
         const data={
             
                 "organizationId": "65a53b5d22ee796e64aa8e1f",
@@ -123,10 +123,16 @@ async function calculatePayroll(organizationId, year, month) {
         }
         await sendEmail("hafizzabdullah999@gmail.com", `Payroll January 2024`, data);
         return {
+
             data: payroll,
-            log,
+            message,
+            error:null
         };
-    } finally {
+    } 
+    catch (error) {
+        return { error: `Error in payroll calculation: ${error.message}`,data:null };
+    }
+        finally {
         await closeMongoDBConnection();
     }
 }
