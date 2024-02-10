@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import LoginImage from "../images/log1.jpg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CircularProgress from '@mui/material/CircularProgress';
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import InputField from "./Styles/InputField";
 import validator from "validator";
@@ -21,6 +22,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const [user, setUser] = useState("");
+  const [loading,setLoading]=useState(false);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -52,6 +54,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!validateForm()) {
       return;
@@ -66,16 +69,23 @@ const Login = () => {
         dispatch(setEmployeeData(response.data));
         setUser(response.data);
         console.log(response.data);
+        setLoading(false);
         navigate(`/HR/dashboard`, { state: { data: response.data } });
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);  
       setApiError(error.response.data.error);
     }
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
+    <div className={`flex flex-col md:flex-row h-screen ${loading ? 'pointer-events-none opacity-70' : ''}`}>
+         {loading && (
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <CircularProgress color="inherit" />
+          </div>
+        )}
       {/* Left Section */}
       <div className="w-full md:w-1/2 p-4 h-full">
         <ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-black" />
