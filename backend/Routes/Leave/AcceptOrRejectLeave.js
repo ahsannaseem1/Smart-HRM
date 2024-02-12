@@ -7,15 +7,18 @@ const {
 
 router.post("/", async (req, res) => {
   try {
-    const { leaveId, employeeId, status } = req.body;
+    const { leaveId, employeeId, status,organizationId } = req.body;
 
-    const { message, error } = await acceptOrRejectLeave(
-      employeeId,
-      leaveId,
-      status
-    );
-    if (message) {
-      res.status(200).json(message);
+    const {
+      userType,
+      user,
+      employeeData,
+      totalLeavesRequestPending,
+      departments,
+      error
+    } = await acceptOrRejectLeave(employeeId, leaveId, status,organizationId);
+    if (user) {
+      res.status(200).json({data:{userType, user, employeeData, totalLeavesRequestPending, departments}, message});
     } else if (error) {
       res.status(500).json(error);
     }

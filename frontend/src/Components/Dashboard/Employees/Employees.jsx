@@ -53,7 +53,7 @@ function Employees() {
             </div>
             <div className="">
             <Link to="/dashboard/Employees/AddEmployee">
-            <button className="flex justify-center bg-sec-color text-white p-2 rounded cursor-pointer w-full active:text-sec-color active:bg-white">
+            <button className="flex justify-center bg-bg-color text-white p-2 rounded cursor-pointer w-full active:text-sec-color active:bg-white">
                 <AddIcon className="mr-2" />
                 <p className="text-md font-bold">Add Employee</p>
               </button>

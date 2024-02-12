@@ -9,8 +9,6 @@ async function requestLeave(
   leaveDate
 ) {
   try {
-    await client.connect();
-
     const db = await connectToMongoDB();
     const employeeCollection = db.collection("Employees");
 
