@@ -2,45 +2,56 @@ import { useEffect, useState } from "react";
 import Sidebar from "../Sidebar";
 import DashboardOverview from "../DashboardOverview";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setEmployeeData } from "../../../state/index";
+import CircularProgress from '@mui/material/CircularProgress';
 import axios from "axios";
 
 function Leave() {
+  const dispatch=useDispatch();
+
   const [employees, setEmployees] = useState([]);
+  const[hrEmail,setHrEmail]=useState([]);
+  const [loading,setLoading]=useState(false);
   const data = useSelector((state) => state.EmployeeData);
 
   useEffect(() => {
     setEmployees(data.employeeData);
-  }, [data.employeeData]);
+setHrEmail(data.user.email);
+}, [data.employeeData]);
 
   // Function to handle the approval or rejection of leave request
   // Function to handle the approval or rejection of leave request
 const handleLeaveAction = async (employeeId, leaveId, action) => {
   try {
-    // Log the leave request details
-    console.log("Employee ID:", employeeId);
-    console.log("Leave ID:", leaveId);
-    console.log("Action:", action);
-
-    // Get the organizationId from the employee data
+        // Get the organizationId from the employee data
     const organizationId = employees.find(emp => emp._id === employeeId)?.organizationId;
-
-    // Make an API call using Axios
-    // const response = await axios.post("http://localhost:5000/AcceptOrRejectLeave", {
-    //   employeeId,
-    //   leaveId,
-    //   action,
-    //   organizationId,
-    // });
-
-    // console.log("API Response:", response);
+    setLoading(true);
+    const response = await axios.post("http://localhost:5000/AcceptOrRejectLeave", {
+      employeeId,
+      leaveId,
+      status:action,
+      organizationId,
+      email:hrEmail
+    });
+    if(response){
+      setLoading(false);
+      dispatch(setEmployeeData(response.data));
+    }
   } catch (error) {
+    setLoading(false);
     console.error("Error occurred while making API call:", error.message);
   }
 };
 
 
   return (
-    <div className="flex gap-4 w-full">
+    <div className={`flex gap-4 w-full ${loading ? 'pointer-events-none opacity-70' : ''}`}>
+    {loading && (
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <CircularProgress color="inherit" />
+          </div>
+        )}
       <div>
         <Sidebar></Sidebar>
       </div>
@@ -68,7 +79,7 @@ const handleLeaveAction = async (employeeId, leaveId, action) => {
                           <div className="flex justify-between w-full gap-2 p-4">
                             <div>
                               <p className="font-bold">{employee.name}</p>
-                              <span className="text-sm">{leave.leaveDate}</span>
+                              <span className="text-sm">{leave.leaveReason}</span>
                             </div>
                             <div>
                               <div

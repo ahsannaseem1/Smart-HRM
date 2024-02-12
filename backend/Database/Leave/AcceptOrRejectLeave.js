@@ -1,6 +1,6 @@
 const { connectToMongoDB, closeMongoDBConnection } = require("../connectDB");
 const {
-  getHrAndEmployeeByOrganizationId,
+  getHrAndEmployee,
 } = require("../GetOrganizationData/GetHRandEmployee");
 
 const { ObjectId } = require("mongodb");
@@ -9,7 +9,8 @@ async function acceptOrRejectLeave(
   employeeId,
   leaveId,
   status,
-  organizationId
+  organizationId,
+  email
 ) {
   try {
     const db = await connectToMongoDB();
@@ -59,10 +60,10 @@ async function acceptOrRejectLeave(
       employeeData,
       totalLeavesRequestPending,
       departments,
-    } = await getHrAndEmployeeByOrganizationId(organizationId);
-    return(user, departments, employeeData, totalLeavesRequestPending, userType,{error:null})
+    } = await getHrAndEmployee(email,organizationId);
+    // console.log(user,userType,employeeData,totalLeavesRequestPending,departments);
+    return({user, departments, employeeData, totalLeavesRequestPending, userType,error:null})
 
-    return { error: null, message: "Leave request updated successfully" };
   } catch (error) {
     return { error: error };
   } finally {

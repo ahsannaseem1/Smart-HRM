@@ -9,6 +9,7 @@ import DashboardOverview from '../../DashboardOverview';
 import { useDispatch } from "react-redux";
 import { setEmployeeData } from '../../../../state';
 import { useNavigate} from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const AddEmployee = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const AddEmployee = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading,setLoading]=useState(false);
   const [apiError,setApiError]=useState('');
 
   const handleInputChange = (e) => {
@@ -95,9 +97,11 @@ const AddEmployee = () => {
 
     try {
         setApiError('')
+        setLoading(true);
         const response = await axios.post('http://localhost:5000/AddEmployee', formData);
 
         if(response.data){
+          setLoading(false);
           dispatch(setEmployeeData(response.data.data));
             setApiError('')
             console.log(response.data.data);
@@ -118,12 +122,18 @@ const AddEmployee = () => {
         });
     } catch (error) {
         // Handle error
+        setLoading(false);
         console.error(error);
         setApiError(error.response.data.error)
     }
   };
   return (
-    <div className="flex gap-12">
+    <div className={`flex gap-12 ${loading ? 'pointer-events-none opacity-70' : ''}`}>
+    {loading && (
+          <div className="absolute z-10 top-1/2 left-[62%] transform -translate-x-1/2 -translate-y-1/2">
+            <CircularProgress color="inherit" />
+          </div>
+        )}
       <div>
         <div className='fixed'><Sidebar /></div>
       </div>
