@@ -85,15 +85,15 @@ const handleLeaveAction = async (employeeId, leaveId, action) => {
                               <p className="font-bold">{employee.name}</p>
                               <span className="text-sm">{leave.leaveReason}</span>
                             </div>
-                            <div>
+                            <div className="self-center">
                               <div
-                                className={`rounded-lg p-2 ${
-                                  leave.status === "Approved"
-                                    ? "bg-gray-500"
-                                    : "bg-bg-color"
-                                } text-white`}
+                                // className={`rounded-lg p-2 ${
+                                //   leave.status === "Approved"
+                                //     ? "bg-gray-500"
+                                //     : "bg-bg-color"
+                                // } text-white`}
                               >
-                                <p>Days: {leave.leaveDays}</p>
+                                <p><span className="font-bold">Days: </span>{leave.leaveDays}</p>
                               </div>
                             </div>
                           </div>
