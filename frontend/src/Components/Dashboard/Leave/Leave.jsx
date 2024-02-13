@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setEmployeeData } from "../../../state/index";
 import CircularProgress from '@mui/material/CircularProgress';
+import AddIcon from '@mui/icons-material/Add';
+import DoneIcon from '@mui/icons-material/Done';
+import ClearIcon from '@mui/icons-material/Clear';
 import axios from "axios";
 
 function Leave() {
@@ -57,8 +60,9 @@ const handleLeaveAction = async (employeeId, leaveId, action) => {
       </div>
       <div className="w-full p-4">
         <DashboardOverview pageName="Leave"></DashboardOverview>
+        <button className="bg-bg-color p-2 rounded-lg text-white shadow-md mb-4 active:bg-white active:text-bg-color"><AddIcon></AddIcon>Apply Leave</button>
 
-        <div className="flex gap-8 w-full h-4/5">
+        <div className="flex justify-between gap-8 w-full h-[77%] ">
           <div className="flex flex-col w-1/3 border border-black rounded-md shadow-lg min-h-full">
             <div className="font-bold">
               <p className="p-4">Leave Calendar</p>
@@ -124,9 +128,9 @@ const handleLeaveAction = async (employeeId, leaveId, action) => {
                                 </span>
                               </div>
                               <div className="self-center">
-                                <p>{leave.leaveDate}</p>
+                                <p className="text-sm">{leave.leaveDate}</p>
                               </div>
-                              <div>
+                              <div className="self-center">
                                 <div className="flex gap-2">
                                   <button
                                     onClick={() =>
@@ -136,8 +140,9 @@ const handleLeaveAction = async (employeeId, leaveId, action) => {
                                         "Approved"
                                       )
                                     }
-                                    className="p-2 bg-green-500 text-white rounded-lg active:text-green-600 active:bg-white"
+                                    className="p-2 text-sm bg-green-500 text-white rounded-lg active:text-green-600 active:bg-white"
                                   >
+                                  <DoneIcon fontSize="small"></DoneIcon>
                                     Approve
                                   </button>
                                   <button
@@ -148,8 +153,9 @@ const handleLeaveAction = async (employeeId, leaveId, action) => {
                                         "reject"
                                       )
                                     }
-                                    className="p-2 bg-red-500 text-white rounded-lg active:text-red-600 active:bg-white"
+                                    className="p-2 text-sm bg-red-500 text-white rounded-lg active:text-red-600 active:bg-white"
                                   >
+                                  <ClearIcon fontSize="small"></ClearIcon>
                                     Reject
                                   </button>
                                 </div>
