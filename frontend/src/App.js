@@ -12,6 +12,7 @@ import Employees from "./Components/Dashboard/Employees/Employees";
 import AddEmployee from "./Components/Dashboard/Employees/AddEmployee/AddEmployee";
 import AttendancePage from "./Components/Attendance/AttendancePage";
 import Leave from './Components/Dashboard/Leave/Leave'
+import Jobs from "./Components/Jobs/Jobs";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./Components/Intro/Footer";
 
@@ -42,6 +43,10 @@ function App() {
           <Route
             path="/dashboard/Employees"
             element={<Employees></Employees>}
+          />
+          <Route
+            path="/Jobs"
+            element={<Jobs></Jobs>}
           />
           <Route path="/register" element={<Register></Register>}></Route>
           <Route path="/dashboard/Employees/AddEmployee" element={<AddEmployee></AddEmployee>}></Route>

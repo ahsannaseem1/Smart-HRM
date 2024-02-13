@@ -1,0 +1,116 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import InputField from '../Styles/InputField';
+import CircularProgress from '@mui/material/CircularProgress';
+
+
+function Jobs() {
+  const [jobs, setJobs] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loading,setLoading]=useState(true);
+
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/GetJobs');
+        if(response){
+            setLoading(false)
+        }
+        setJobs(response.data);
+      } catch (error) {
+        console.error('Error fetching jobs:', error.message);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  const totalJobs = jobs.reduce(
+    (count, organization) => count + organization.jobArray.length,
+    0
+  );
+
+  const filteredJobs = jobs.filter((organization) =>
+    organization.jobArray.some(
+      (job) =>
+        job.jobTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        organization.organizationName.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
+  return (
+    <div className={`bg-gray-400 ${loading ? 'pointer-events-none opacity-70' : ''}`}>
+    {loading && (
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <CircularProgress color="primary" />
+          </div>
+        )}
+      <div className='w-9/12 m-auto'>
+        <div className='pt-12 text-2xl font-bold text-gray-800'>
+          <p>Total {totalJobs} Jobs Available</p>
+        </div>
+        <div className='w-1/2 mt-8'>
+          <InputField
+            label='Search Jobs'
+            type='text'
+            id='search'
+            name='search'
+            autoComplete='off'
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            focusColor='sec-color'
+            top='6'
+          />
+        </div>
+        <div className='w-full'>
+          {filteredJobs.map((organization) => (
+            <div key={organization.organizationId}>
+              {organization.jobArray && organization.jobArray.length > 0 ? (
+                organization.jobArray.map((job) => (
+                  <div className='py-8' key={job.jobTitle}>
+                    <div className='flex justify-between flex-wrap bg-sec-color rounded-lg p-4 border border-gray-500 text-white shadow-lg'>
+                      <div className='flex flex-col gap-4 sm:w-full md:w-9/12 '>
+                        <h2>{organization.organizationName}</h2>
+                        <p className='font-bold text-xl'>{job.jobTitle}</p>
+                        <p className='text-sm text-justify'>
+                          {job.jobDescription
+                            .split('\n')
+                            .slice(0, 3)
+                            .join('\n')}
+                        </p>
+                        <p>Location: {job.location}</p>
+                        <p>Status: {job.status}</p>
+                      </div>
+                      <div className='flex flex-col justify-center gap-4 lg:w-auto lg:mt-0 mt-4 w-full'>
+                      <div className='w-full'>
+                        <button className='w-full p-2 bg-white text-sec-color rounded-lg active:bg-sec-color active:text-white'>
+                          Apply Now
+                        </button>
+                        </div>
+                        
+                        <div className='w-full'><Link
+                          to={`/job/${organization.organizationId}/${job.jobTitle}`}
+                        >
+                          <button className='w-full p-2 bg-white text-sec-color rounded-lg active:bg-sec-color active:text-white'>
+                            Open Now
+                          </button>
+                        </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No jobs available</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Jobs;

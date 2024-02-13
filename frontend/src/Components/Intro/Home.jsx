@@ -38,7 +38,7 @@ function Home(props) {
                 <a href="#" className="text-white text-md hover:text-xl w-20 inline-block h-full flex items-center justify-center hover:border-b-2 border-bg-color">Pricing</a>
               </li>
               <li className="flex items-center">
-                <a href="#" className="text-white text-md hover:text-xl w-20 inline-block h-full flex items-center justify-center hover:border-b-2 border-bg-color">Jobs</a>
+                <Link to='/Jobs' className="text-white text-md hover:text-xl w-20 inline-block h-full flex items-center justify-center hover:border-b-2 border-bg-color">Jobs</Link>
               </li>
               <li className="flex items-center">
                 <a href="#" className="text-white text-md hover:text-xl w-20 inline-block h-full flex items-center justify-center hover:border-b-2 border-bg-color">Contact</a>
