@@ -3,6 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { useInView } from 'react-intersection-observer';
 import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+import { Link } from "react-router-dom";
 
 function Pricing(props) {
   const [ref, inView] = useInView({
@@ -53,7 +54,7 @@ function Pricing(props) {
               className="bg-bg-color px-3 py-1.5 rounded-3xl border-none font-bold text-center cursor-pointer transition duration-400 hover:shadow-lg hover:shadow-gray-400 active:transform active:scale-97 active:shadow-lg"
             >
               <ArrowCircleRightRoundedIcon className="inline-block" style={{ color: 'white' }} />
-              <span className="ml-2 text-white">Start for Free</span>
+             <Link to='/register'> <span className="ml-2 text-white">Start for Free</span></Link>
             </button>
           </animated.div>
           <animated.div style={{itemMargin, marginTop: 30 }} className="flex flex-col gap-4 items-start mt-6 mb-6">

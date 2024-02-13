@@ -7,6 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import InputField from "./Styles/InputField";
 import validator from "validator";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setEmployeeData } from "../state/index";
 
@@ -88,7 +89,7 @@ const Login = () => {
         )}
       {/* Left Section */}
       <div className="w-full md:w-1/2 p-4 h-full">
-        <ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-black" />
+        <Link to='/'><ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-black" /></Link>
         <img
           src={LoginImage}
           alt="login"

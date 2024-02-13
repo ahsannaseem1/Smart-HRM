@@ -5,7 +5,7 @@ import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InputField from "./Styles/InputField";
 import validator from 'validator'
-
+import { Link } from "react-router-dom";
 const Register = () => {
   
   const employeesOptions = [
@@ -102,7 +102,7 @@ const Register = () => {
     <div className="flex flex-col sm:flex-row w-full min-h-screen">
       {/* Container with Image */}
       <div className="flex-1 justify-center items-center">
-        <ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-black" />
+        <Link to='/'><ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-black" /></Link>
         <img
           src={RegisterImage}
           alt="background"
