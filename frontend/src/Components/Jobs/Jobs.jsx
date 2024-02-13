@@ -8,6 +8,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function Jobs() {
   const [jobs, setJobs] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [error, setError] = useState('');
   const [loading,setLoading]=useState(true);
 
 
@@ -20,7 +21,9 @@ function Jobs() {
         }
         setJobs(response.data);
       } catch (error) {
+        setLoading(false);
         console.error('Error fetching jobs:', error.message);
+        setError(error.message);
       }
     };
 
@@ -41,12 +44,13 @@ function Jobs() {
   );
 
   return (
-    <div className={`bg-sec-color ${loading ? 'pointer-events-none opacity-70' : ''}`}>
+    <div className={`bg-sec-color ${loading ? 'pointer-events-none' : ''} min-h-screen`}>
     {loading && (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <CircularProgress color="inherit" />
+            <CircularProgress color="primary" />
           </div>
         )}
+        
         <Link to='/'><ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-white" /></Link>
       <div className='w-9/12 m-auto'>
         <div className='pt-12 text-2xl font-bold text-white'>
@@ -109,6 +113,12 @@ function Jobs() {
               )}
             </div>
           ))}
+          {error &&(
+            <div className="text-red-800 font-bold text-center text-2xl mt-8">
+                {error}
+            </div>
+            
+        )}
         </div>
       </div>
     </div>
