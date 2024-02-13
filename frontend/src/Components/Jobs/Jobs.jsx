@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import InputField from '../Styles/InputField';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function Jobs() {
   const [jobs, setJobs] = useState([]);
@@ -41,15 +41,17 @@ function Jobs() {
   );
 
   return (
-    <div className={`bg-gray-400 ${loading ? 'pointer-events-none opacity-70' : ''}`}>
+    <div className={`bg-sec-color ${loading ? 'pointer-events-none opacity-70' : ''}`}>
     {loading && (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <CircularProgress color="primary" />
+            <CircularProgress color="inherit" />
           </div>
         )}
+        <Link to='/'><ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-white" /></Link>
       <div className='w-9/12 m-auto'>
-        <div className='pt-12 text-2xl font-bold text-gray-800'>
+        <div className='pt-12 text-2xl font-bold text-white'>
           <p>Total {totalJobs} Jobs Available</p>
+          <hr className='mt-2'></hr>
         </div>
         <div className='w-1/2 mt-8'>
           <InputField
