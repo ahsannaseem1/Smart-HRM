@@ -62,29 +62,31 @@ function Employees() {
             </div>
           </div>
         </div>
-        {/* 
-        <div className="flex justify-center gap-6 h-full w-full p-4 flex-wrap">
-          {filteredEmployees.length > 0 ? (
-            filteredEmployees.map((employee, index) => (
-              <div className="w-72" key={index}>
-                <EmployeeCard
-                  Id={index + 1}
-                  Name={employee.name}
-                  Department={employee.department}
-                  Contact={employee.contact}
-                  EmailText={employee.email}
-                />
-              </div>
-            ))
-          ) : (
-            <p>No employees found</p>
-          )}
-        </div> */}
+        
+        
+<div className="flex justify-center gap-6 h-full w-full p-4 flex-wrap">
+  {filteredEmployees.length > 0 ? (
+    filteredEmployees.map((employee, index) => (
+      <div className="w-72" key={index}>
+        <EmployeeCard
+          Id={index + 1}
+          Name={employee.name}
+          Department={employee.department}
+          Contact={employee.contact}
+          EmailText={employee.email}
+          // Image={employee.image}
+        />
+      </div>
+    ))
+  ) : (
+    <p>No employees found</p>
+  )}
+</div>
 
-        <div className="mr-4">
+        {/* <div className="mr-4">
        
           <EnhancedTable employeeData={filteredEmployees}></EnhancedTable>
-        </div>
+        </div> */}
       </div>
     </div>
   );

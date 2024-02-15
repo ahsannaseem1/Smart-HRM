@@ -40,7 +40,12 @@ function Dashboard() {
   }
 
   return (
+  
     <div className="flex flex-col md:flex-row h-screen">
+      {/* <img
+      src={`data:image/jpeg;base64,${employeeData.employeeData[9].image}`}
+    alt="Employee Image"
+  /> */}
       <Sidebar></Sidebar>
       <div className='flex-1 flex flex-col overflow-hidden bg-color'>
         <main className="flex-1 overflow-x-hidden overflow-y-auto">
