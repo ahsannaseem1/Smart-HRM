@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+import { Link } from "react-router-dom";
 
 function Home(props) {
   const [animate, setAnimate] = useState(false);
@@ -37,7 +38,7 @@ function Home(props) {
                 <a href="#" className="text-white text-md hover:text-xl w-20 inline-block h-full flex items-center justify-center hover:border-b-2 border-bg-color">Pricing</a>
               </li>
               <li className="flex items-center">
-                <a href="#" className="text-white text-md hover:text-xl w-20 inline-block h-full flex items-center justify-center hover:border-b-2 border-bg-color">Jobs</a>
+                <Link to='/Jobs' className="text-white text-md hover:text-xl w-20 inline-block h-full flex items-center justify-center hover:border-b-2 border-bg-color">Jobs</Link>
               </li>
               <li className="flex items-center">
                 <a href="#" className="text-white text-md hover:text-xl w-20 inline-block h-full flex items-center justify-center hover:border-b-2 border-bg-color">Contact</a>
@@ -47,12 +48,13 @@ function Home(props) {
 
           {/* Login button on the right */}
           <div className="flex items-center mr-10">
-          <button
+          <Link to='/login'><button
               className="bg-bg-color px-3 py-1.5 rounded-3xl border-none font-bold text-center cursor-pointer transition duration-400 hover:shadow-lg hover:shadow-gray-400 active:transform active:scale-97 active:shadow-lg"
             >
               <ArrowCircleRightRoundedIcon className="inline-block" style={{ color: 'white' }} />
               <span className="ml-2 text-white">Login</span>
             </button>
+            </Link>
           </div>
         </div>
       </header>
@@ -73,7 +75,7 @@ function Home(props) {
               className="bg-bg-color px-3 py-1.5 rounded-3xl border-none font-bold text-center cursor-pointer transition duration-400 hover:shadow-lg hover:shadow-gray-400 active:transform active:scale-97 active:shadow-lg"
             >
               <ArrowCircleRightRoundedIcon className="inline-block" style={{ color: 'white' }} />
-              <span className="ml-2 text-white">Start for Free</span>
+             <Link to='/register'> <span className="ml-2 text-white">Start for Free</span></Link>
             </button>
           </animated.div>
         </div>

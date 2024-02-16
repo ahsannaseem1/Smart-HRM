@@ -2,13 +2,20 @@ import React from "react";
 import { Email, Phone } from "@mui/icons-material";
 import ApartmentIcon from '@mui/icons-material/Apartment';
 
-const EmployeeCard = ({ Id, Name, EmailText, Contact, Department }) => {
+const EmployeeCard = ({ Id, Name, EmailText, Contact, Department, Image }) => {
     return (
-        <div className="flex flex-col shadow-md rounded-md overflow-hidden" >
+        <div className="flex flex-col shadow-md rounded-md overflow-hidden">
             <div className="p-4 bg-gradient-to-r from-blue-400 to-indigo-500 text-white">
-                <p className="text-lg text-center font-bold" >{Id}</p>
+                <p className="text-lg text-center font-bold">{Id}</p>
             </div>
             <div className="flex flex-col p-4">
+                {/* <div className="rounded-full overflow-hidden w-20 h-20 self-center mb-2">
+                    <img
+                        src={`data:image/png;base64,${Image}`}
+                        alt={`${Name}'s Image`}
+                        className="w-full h-full object-cover"
+                    />
+                </div> */}
                 <h2 className="text-lg font-bold mb-2 self-center">{Name}</h2>
                 <p className="text-gray-600 mb-2">
                     <ApartmentIcon className="mr-2 p-1" />

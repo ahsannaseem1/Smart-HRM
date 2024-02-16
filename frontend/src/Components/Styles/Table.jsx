@@ -23,24 +23,20 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
 function createData(employee) {
+  const allowances = employee.Allowances || [];
+  const totalAllowanceAmount = allowances.reduce(
+    (total, allowance) => total + parseFloat(allowance.amount) || 0,
+    0
+  );
+
   return {
     id: employee._id.toString(),
     name: employee.name,
     calories: employee.salary,
-    fat: JSON.stringify(employee.allowances),
+    fat: totalAllowanceAmount,
     carbs: employee.leaves,
     protein: employee.department,
-    contact: employee.contact, // Add contact to the main row
-    details: {
-      leaveRequest: (employee.leaveRequest || []).map((request) => ({
-        leaveDays: request.leaveDays,
-        leaveType: request.leaveType,
-        leaveReason: request.leaveReason,
-        leaveDate: request.leaveDate,
-        status: request.status,
-      })),
-      dateOfBirth: employee.dateOfBirth, // Include date of birth
-    },
+    contact: employee.contact,
   };
 }
 
@@ -139,30 +135,29 @@ const EnhancedTableHead = (props) => {
           />
         </TableCell>
         {headCells.map((headCell) => (
-            <TableCell
-  key={headCell.id}
-  align={headCell.numeric ? "right" : "left"  }
-  padding={headCell.disablePadding ? "none" : "normal"}
-  sortDirection={orderBy === headCell.id ? order : false}
-  sx={{
-    textAlign: headCell.id === "protein" ? "right" : "",
-    fontWeight: "bold", // Add this line to make the text bold
-  }}
->
-  <TableSortLabel
-    active={orderBy === headCell.id}
-    direction={orderBy === headCell.id ? order : 'asc'}
-    onClick={createSortHandler(headCell.id)}
-  >
-    {headCell.label}
-    {orderBy === headCell.id ? (
-      <Box component="span" sx={visuallyHidden}>
-        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-      </Box>
-    ) : null}
-  </TableSortLabel>
-</TableCell>
-
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "normal"}
+            sortDirection={orderBy === headCell.id ? order : false}
+            sx={{
+              textAlign: headCell.id === "protein" ? "right" : "",
+              fontWeight: "bold",
+            }}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : "asc"}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
         ))}
       </TableRow>
     </TableHead>
@@ -276,6 +271,10 @@ export default function EnhancedTable({ employeeData }) {
       );
     }
     setSelected(newSelected);
+
+    // Log the data of the clicked employee
+    const clickedEmployee = employeeData.find((employee) => employee._id.toString() === id);
+    console.log("Clicked Employee Data:", clickedEmployee);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -293,7 +292,6 @@ export default function EnhancedTable({ employeeData }) {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0
       ? Math.max(0, (1 + page) * rowsPerPage - employeeData.length)
@@ -332,86 +330,39 @@ export default function EnhancedTable({ employeeData }) {
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
-                  <React.Fragment key={row.id}>
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                      sx={{ cursor: "pointer" }}
+                  <TableRow
+                    hover
+                    onClick={(event) => handleClick(event, row.id)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.id}
+                    selected={isItemSelected}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        color="primary"
+                        checked={isItemSelected}
+                        inputProps={{
+                          "aria-labelledby": labelId,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.contact}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
-                    </TableRow>
-                    {isItemSelected && (
-                        <TableRow>
-  <TableCell colSpan={6}>
-    <Box>
-      <Typography variant="h6">Details:</Typography>
-       <Typography>
-        Date of Birth: {row.details.dateOfBirth}
-      </Typography>
-      <Typography>Leave Requests:</Typography>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: "bold" }}>Leave Days</TableCell>
-              <TableCell sx={{ fontWeight: "bold" }}>Leave Type</TableCell>
-              <TableCell sx={{ fontWeight: "bold" }}>Leave Reason</TableCell>
-              <TableCell sx={{ fontWeight: "bold" }}>Leave Date</TableCell>
-              <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Array.isArray(row.details.leaveRequest) ? (
-              row.details.leaveRequest.map((request, idx) => (
-                <TableRow key={idx}>
-                  {/* Display details of leave request */}
-                  <TableCell>{request.leaveDays}</TableCell>
-                  <TableCell>{request.leaveType}</TableCell>
-                  <TableCell>{request.leaveReason}</TableCell>
-                  <TableCell>{request.leaveDate}</TableCell>
-                  <TableCell>{request.status}</TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={5}>No leave requests</TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
-  </TableCell>
-</TableRow>
-
-                    )}
-                  </React.Fragment>
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.calories}</TableCell>
+                    <TableCell align="right">{row.fat}</TableCell>
+                    <TableCell align="right">{row.contact}</TableCell>
+                    <TableCell align="right">{row.carbs}</TableCell>
+                    <TableCell align="right">{row.protein}</TableCell>
+                  </TableRow>
                 );
               })}
               {emptyRows > 0 && (

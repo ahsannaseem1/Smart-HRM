@@ -5,7 +5,8 @@ import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InputField from "./Styles/InputField";
 import validator from 'validator'
-
+import { Link } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
 const Register = () => {
   
   const employeesOptions = [
@@ -30,6 +31,7 @@ const Register = () => {
 
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState('');
+  const [loading,setLoading]=useState(false);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -84,14 +86,19 @@ const Register = () => {
 
     // Make axios call
     try {
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:5000/SignUp",  // Update with your actual backend API endpoint
         formData
       );
 
+      if(response){
+        setLoading(false);
+      }
       console.log(response.data);
       // Handle success
     } catch (error) {
+      setLoading(false);
       setApiError(error.response.data.error)
       console.error(error.response.data.error);
       // Handle error
@@ -99,10 +106,15 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row w-full min-h-screen">
+    <div className={`flex flex-col sm:flex-row w-full min-h-screen ${loading ? 'pointer-events-none opacity-70' : ''} `}>
+     {loading && (
+          <div className="absolute top-1/2 left-[74%] z-10 transform -translate-x-1/2 -translate-y-1/2">
+            <CircularProgress color="inherit" />
+          </div>
+        )}
       {/* Container with Image */}
       <div className="flex-1 justify-center items-center">
-        <ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-black" />
+        <Link to='/'><ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-black" /></Link>
         <img
           src={RegisterImage}
           alt="background"

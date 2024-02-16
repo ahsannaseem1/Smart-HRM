@@ -15,7 +15,8 @@ const addEmployee = async (
   department,
   employeeId,
   allowances,
-  leaves
+  leaves,
+  image // Add image parameter
 ) => {
   try {
     const db = await connectToMongoDB();
@@ -29,6 +30,7 @@ const addEmployee = async (
         error: "Employee is already registered with these credentials.",
       };
     }
+
     const hashedPassword = await generateHash(password);
 
     let employeeDocument = {
@@ -46,7 +48,13 @@ const addEmployee = async (
       dateOfBirth: dateOfBirth,
     };
 
+    if (image && image.buffer) {
+      // Check if image is provided
+      employeeDocument.image = image.buffer.toString("base64"); // Convert image to base64 string
+    }
+
     const result = await col.insertOne(employeeDocument);
+
     if (result) {
       const {
         userType,
@@ -55,6 +63,7 @@ const addEmployee = async (
         totalLeavesRequestPending,
         departments,
       } = await getHrAndEmployee(hrEmail, organizationId);
+
       const data = {
         userType: userType,
         user: user,
@@ -62,6 +71,7 @@ const addEmployee = async (
         totalLeavesRequestPending: totalLeavesRequestPending,
         departments: departments,
       };
+
       return { data: data, error: null };
     }
   } catch (err) {
