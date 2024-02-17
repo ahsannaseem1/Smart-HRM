@@ -81,7 +81,8 @@ const Login = () => {
   };
 
   return (
-    <div className={`flex flex-col md:flex-row h-screen ${loading ? 'pointer-events-none opacity-70' : ''}`}>
+    <div className={`flex flex-col md:flex-row h-screen ${loading ? 'pointer-events-none opacity-70 ' : ''}`}>
+         
          {loading && (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <CircularProgress color="inherit" />
@@ -106,6 +107,7 @@ const Login = () => {
           </p>
 
           <form className="grid grid-cols-1 gap-6 mt-20" onSubmit={handleLogin}>
+
             {/* Email */}
             <div>
               <InputField
@@ -138,6 +140,8 @@ const Login = () => {
                 focusColor="white"
                 top="6"
               />
+                {/* {loading && (<div className="backdrop-blur-sm absolute inset-1"></div>)} */}
+
               {errors.password && (
                 <p className="text-red-800 font-bold text-xs text-left">
                   {errors.password}
