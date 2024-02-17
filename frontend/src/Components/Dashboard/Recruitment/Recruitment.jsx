@@ -1,25 +1,50 @@
+import React, { useState, useEffect } from 'react';
 import Sidebar from "../Sidebar";
 import DashboardOverview from "../DashboardOverview";
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+
 function Recruitment() {
+    const employeeData = useSelector(state => state.EmployeeData);
+
+  const [jobs, setJobs] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Replace 'YOUR_ORG_ID' with the actual organization ID
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/GetJobs/${employeeData.user.organizationId}`);
+        setJobs(response.data);
+        setError(null);
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+        setError('Error fetching jobs. Please try again.');
+      }
+    };
+
+    fetchData();
+  }, []); // The empty dependency array ensures that this effect runs once when the component mounts
+
   return (
     <div className="flex gap-4">
       <Sidebar></Sidebar>
       <div className="w-full p-4">
         <DashboardOverview pageName="Recruitment"></DashboardOverview>
         <div className="flex mt-4">
-          <div className="flex flex-col gap-4 w-[40%] p-4 rounded-lg border border-black shadow-lg">
-            <h1 className="font-bold text-xl">React Native Developer</h1>
-            <p className="text-sm">
-              Job Description lorem20 n this example, I've added an absolutely
-              positioned element with a background color and opacity to serve as
-              a backdrop for the blur effect. Adjust the background color and
-              opacity based on your design preferences. 
-            </p>
-            <button className="p-2 self-end rounded-md bg-sec-color text-white">View</button>
-          </div>
+          {jobs.map((job) => (
+            <div key={job.jobId} className="flex flex-col gap-4 w-[40%] p-4 rounded-lg border border-black shadow-lg">
+              <h1 className="font-bold text-xl">{job.jobTitle}</h1>
+              <p className="text-sm">{job.jobDescription}</p>
+              <button className="p-2 self-end rounded-md bg-sec-color text-white">View</button>
+            </div>
+          ))}
         </div>
+        {error && <p className="text-red-500 mt-4">{error}</p>}
       </div>
     </div>
   );
 }
+
 export default Recruitment;
