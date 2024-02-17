@@ -17,6 +17,8 @@ async function addJob(organizationId, jobTitle, jobDescription, location) {
             }
 
             organization.jobs.push({
+                _id:new ObjectId(),
+                organizationId,
                 jobTitle,
                 jobDescription,
                 location,
