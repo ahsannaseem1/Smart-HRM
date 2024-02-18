@@ -10,6 +10,7 @@ import validator from "validator";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setEmployeeData } from "../state/index";
+import { setJobs } from "../state/JobsSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -67,9 +68,9 @@ const Login = () => {
       );
 
       if (response.data) {
+        dispatch(setJobs(response.data.jobs.jobs));
         dispatch(setEmployeeData(response.data));
         setUser(response.data);
-        console.log(response.data);
         setLoading(false);
         navigate(`/HR/dashboard`, { state: { data: response.data } });
       }
