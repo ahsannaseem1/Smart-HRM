@@ -29,8 +29,6 @@ async function GetApplicantsByOrgAndJob(organizationId,jobId) {
       jobId: jobId,
     }).toArray();
 
-    console.log(applicants);
-
     return { applicants: applicants, error: null };
   } catch (error) {
     return { applicants: null, error: error.message };

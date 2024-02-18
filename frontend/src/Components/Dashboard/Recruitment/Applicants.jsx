@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Sidebar from "../Sidebar";
 import DashboardOverview from "../DashboardOverview";
 import { pdfjs, Document, Page } from "react-pdf";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import InputField from "../../Styles/InputField";
 
 function Applicants() {
   const { organizationId, jobId } = useParams();
@@ -11,6 +13,7 @@ function Applicants() {
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [pdfMetadata, setPdfMetadata] = useState(null);
   const [pdfTextContent, setPdfTextContent] = useState("");
+  const [filterKeywords, setFilterKeywords] = useState("");
 
   useEffect(() => {
     const getApplicants = async () => {
@@ -58,9 +61,26 @@ function Applicants() {
     }
   };
 
+  const handleFilter = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/GetTopApplicants/?organizationId=${organizationId}&jobId=${jobId}&job_description=${filterKeywords}`
+      );
+      const filteredApplicants = response.data.ranking;
+      
+      // Sort applicants based on ranking
+      const sortedApplicants = filteredApplicants.sort((a, b) => a.ranking - b.ranking);
+      
+      setApplicants(sortedApplicants);
+    } catch (error) {
+      console.error("Error filtering applicants:", error);
+    }
+  };
+
   useEffect(() => {
     pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
   }, []);
+
   return (
     <div className="flex gap-4">
       <div>
@@ -71,10 +91,28 @@ function Applicants() {
         <h1 className="my-4 font-bold text-2xl pl-12">
           {applicants.length} Job Application
         </h1>
-        <button className="p-2 ml-12 mb-4 text-sm mr-2 bg-sec-color text-white rounded-lg active:text-sec-color active:bg-white">
-          Filter
-        </button>{" "}
-        <div className="flex flex-col flex-wrap justify-between p-3 w-11/12 m-auto bg-sec-color rounded-lg text-white">
+        <div className="flex gap-4">
+          <div className="ml-12">
+            <InputField
+              label="Enter Keywords"
+              type="text"
+              id="search"
+              name="search"
+              autoComplete="off"
+              value={filterKeywords}
+              onChange={(e) => setFilterKeywords(e.target.value)}
+              focusColor="sec-color"
+              top="6"
+            />
+          </div>
+          <button
+            className="p-2 px-4  mb-4 text-sm mr-2 bg-sec-color text-white rounded-lg active:text-sec-color active:bg-white"
+            onClick={handleFilter}
+          >
+            <FilterAltIcon className="mr-1"></FilterAltIcon>Filter
+          </button>
+        </div>
+        <div className="flex flex-col flex-wrap  pt-6 justify-between p-3 w-11/12 m-auto bg-sec-color rounded-lg text-white">
           {applicants.map((applicant) => (
             <div key={applicant.id} className=" mb-4 w-full text-sec-color">
               <div className="flex justify-between bg-white p-3 rounded-lg shadow-md">

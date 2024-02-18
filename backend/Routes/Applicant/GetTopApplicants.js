@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const { MongoClient, Binary } = require('mongodb');
 const { GetApplicantsData } = require('../../Database/Applicant/GetApplicantsData');
-const {addRanking}=require('../../Database/Applicant/addRankings')
+const {addRanking}=require('../../Database/Applicant/addRankings');
 
 const app = express();
 
@@ -13,9 +13,10 @@ const router = express.Router();
 app.use(express.json());
 
 router.get('/', async (req, res) => {
-    const{job_description}=req.body;
-    console.log(job_description)
-    const applicants = await GetApplicantsData();
+    const{job_description,organizationId,jobId}=req.query;
+    console.log(job_description,organizationId, jobId);
+    const applicants = await GetApplicantsData(organizationId, jobId);
+
     const flaskApiUrl = 'http://127.0.0.1:5001/api';  // Replace with your Flask API URL
         const response = await axios.post(flaskApiUrl, { applicants , job_description});
 
