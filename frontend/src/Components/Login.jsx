@@ -81,7 +81,7 @@ const Login = () => {
   };
 
   return (
-    <div className={`flex flex-col md:flex-row h-screen ${loading ? 'pointer-events-none opacity-70' : ''}`}>
+    <div className={`flex flex-col md:flex-row h-screen ${loading ? 'pointer-events-none opacity-70' : ''}`} >
          {loading && (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <CircularProgress color="inherit" />
@@ -98,8 +98,8 @@ const Login = () => {
       </div>
 
       {/* Right Section */}
-      <div className="bg-bg-color w-full md:w-1/2 p-4 flex items-center justify-center h-full">
-        <div className="bg-bg-color p-8 text-center max-w-md mx-auto">
+      <div className="bg-sec-color w-full md:w-1/2 p-4 flex items-center justify-center h-full">
+        <div className="bg-sec-color p-8 text-center max-w-md mx-auto">
           <h2 className="text-5xl font-bold mb-4 text-white">Login</h2>
           <p className="text-lg text-white mb-6">
             Enter your credentials to login
@@ -152,7 +152,7 @@ const Login = () => {
 
             {/* Submit Button */}
             <div className="mb-4">
-              <button className="flex justify-center bg-sec-color text-white p-1 rounded cursor-pointer w-full mt-4 active:text-sec-color active:bg-white">
+              <button className="flex justify-center bg-bg-color text-white p-1 rounded cursor-pointer w-full mt-4 active:text-sec-color active:bg-white">
                 <LoginOutlinedIcon className="mr-2" />
                 <p className="text-lg font-bold">Login</p>
               </button>
