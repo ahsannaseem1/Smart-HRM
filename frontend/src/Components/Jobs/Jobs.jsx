@@ -17,9 +17,9 @@ function Jobs() {
         const response = await axios.get("http://localhost:5000/GetJobs");
         if (response) {
           setLoading(false);
+          // console.log(response.data)
         }
         setJobs(response.data);
-        console.log(jobs[0].jobArray[0]._id)
       } catch (error) {
         setLoading(false);
         console.error("Error fetching jobs:", error.message);
