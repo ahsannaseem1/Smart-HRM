@@ -42,7 +42,7 @@ function Sidebar({ isOpen, onClose }) {
       <aside
         className={`w-60 m-3 ${
           isSidebarOpen ? "block" : "hidden"
-        } md:block bg-gradient-to-b from-bg-color to-sec-color p-2 flex flex-col justify-center items-center rounded-3xl shadow-lg shadow-blue-200`}
+        } md:block bg-gradient-to-b from-bg-color to-sec-color p-2 flex flex-col justify-center items-center rounded-3xl shadow-xl shadow-gray-300`}
       >
         {/* Organization Name */}
         <h1 className="text-white text-lg font-semibold mb-2 mt-4 text-center">
