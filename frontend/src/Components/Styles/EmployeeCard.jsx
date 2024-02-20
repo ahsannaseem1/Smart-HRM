@@ -5,7 +5,7 @@ import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 
 const EmployeeCard = ({ Id, Name, EmailText, Contact, Department, Image }) => {
     return (
-        <div className="flex flex-col border border-gray-300 shadow-md shadow-blue-300 rounded-xl overflow-hidden cursor-pointer transition-transform transform hover:scale-105">
+        <div className="flex flex-col border border-gray-300 shadow-md shadow-gray-300 hover:shadow-blue-300 rounded-xl overflow-hidden cursor-pointer transition-transform transform hover:scale-105">
             <div className="p-1 border-b border-gray-300 bg-blue-100">
                 <p className="text-md text-center font-bold">{Id}</p>
             </div>
