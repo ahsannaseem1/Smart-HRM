@@ -1,9 +1,7 @@
 const express = require('express');
 const multer = require('multer');
-const { MongoClient, Binary } = require('mongodb');
-
-const uri = process.env.DB_URI;
-const dbName = process.env.DB_NAME;
+const { Binary } = require('mongodb');
+const { addApplicant } = require('../../Database/Applicant/addApplicant'); // Replace with the correct path
 
 const router = express.Router();
 
@@ -11,36 +9,25 @@ const router = express.Router();
 const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage });
 
-// MongoDB connection
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
 // Define the route to handle file upload
 router.post('/', upload.single('pdf'), async (req, res) => {
   try {
-    await client.connect();
-    const db = client.db(dbName);
-
-    const { password, email } = req.body;
+    const {name, password, email,phoneNumber,jobId,orgId } = req.body;
+    console.log(name, password, email, phoneNumber,jobId,orgId);
 
     // Convert the file buffer to BinData
     const pdfBuffer = req.file.buffer; // Access the buffer of the uploaded file
     const pdfBinData = new Binary(pdfBuffer);
-
-    const applicantDoc = {
-      email: email,
-      password: password,
-      resume: pdfBinData,
-    };
-
-    const applicantCollection = db.collection('Applicants');
-    const result = await applicantCollection.insertOne(applicantDoc);
-
-    res.status(200).json({ message: 'Applicant created successfully' });
+    // Use the addApplicant function to store applicant data
+    const result = await addApplicant(name,email, password,phoneNumber,jobId,orgId, pdfBinData);
+console.log(result);
+    if (result.error) {
+      res.status(400).json({ error: result.error });
+    } else {
+      res.status(200).json({ message: 'Applicant created successfully' });
+    }
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while creating the applicant', details: error.message });
-  } finally {
-    // Close MongoDB connection
-    await client.close();
   }
 });
 

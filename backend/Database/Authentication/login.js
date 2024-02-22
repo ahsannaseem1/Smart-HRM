@@ -1,6 +1,7 @@
 const { getUserData } = require("./utilities/getUserData");
 const { getHrAndEmployee } = require("../GetOrganizationData/GetHRandEmployee");
 const { connectToMongoDB, closeMongoDBConnection } = require("../connectDB");
+const {getJobsByOrganizationId} = require('../GetOrganizationData/getOrganizationJobs');
 const bcrypt = require("bcrypt");
 
 const authenticateUser = async (email, password) => {
@@ -20,15 +21,20 @@ const authenticateUser = async (email, password) => {
     const hrUser = await hrCollection.findOne({ email: email });
 
     if (hrUser && (await bcrypt.compare(password, hrUser.password))) {
-      return ({
+      const { userType, user, employeeData, totalLeavesRequestPending, departments } = await getHrAndEmployee(hrUser.email, hrUser.organizationId);
+      
+      const jobs = await getJobsByOrganizationId(hrUser.organizationId);
+    
+      return {
         userType,
         user,
         employeeData,
         totalLeavesRequestPending,
         departments,
-      } = await getHrAndEmployee(hrUser.email, hrUser.organizationId));
+        jobs,
+      };
     }
-
+    
     // Check if the email exists in the Employees collection
     const empCollection = db.collection("Employees");
     const empUser = await empCollection.findOne({ email: email });

@@ -5,7 +5,8 @@ import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InputField from "./Styles/InputField";
 import validator from 'validator'
-
+import { Link } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
 const Register = () => {
   
   const employeesOptions = [
@@ -30,6 +31,7 @@ const Register = () => {
 
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState('');
+  const [loading,setLoading]=useState(false);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -84,14 +86,19 @@ const Register = () => {
 
     // Make axios call
     try {
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:5000/SignUp",  // Update with your actual backend API endpoint
         formData
       );
 
+      if(response){
+        setLoading(false);
+      }
       console.log(response.data);
       // Handle success
     } catch (error) {
+      setLoading(false);
       setApiError(error.response.data.error)
       console.error(error.response.data.error);
       // Handle error
@@ -99,10 +106,15 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row w-full min-h-screen">
+    <div className={`flex flex-col sm:flex-row w-full min-h-screen ${loading ? 'pointer-events-none opacity-70' : ''} `}>
+     {loading && (
+          <div className="absolute top-1/2 left-[74%] z-10 transform -translate-x-1/2 -translate-y-1/2">
+            <CircularProgress color="inherit" />
+          </div>
+        )}
       {/* Container with Image */}
       <div className="flex-1 justify-center items-center">
-        <ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-black" />
+        <Link to='/'><ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-black" /></Link>
         <img
           src={RegisterImage}
           alt="background"
@@ -111,7 +123,7 @@ const Register = () => {
       </div>
 
       {/* Form Container */}
-      <div className="flex-1 bg-bg-color p-8 shadow-md text-center">
+      <div className="flex-1 bg-sec-color p-8 shadow-md text-center">
         <h2 className="text-3xl font-bold mb-4 text-white mt-4 md:mt-1 sm:mt-5">Register your Organization</h2>
         <p className="md:text-md sm:text-sm mb-4 text-white">Sign Up as a Super Admin of your organization</p>
         <form className="grid grid-cols-1 gap-6 md:gap-5 lg:gap-6 sm:mt-10 md:mt-14 lg:mt-16 mt-12 text-left sm:grid-cols-2" onSubmit={handleRegister}>
@@ -269,7 +281,7 @@ const Register = () => {
           )}
           <button
             type="submit"
-            className="flex justify-center sm:col-span-2 bg-sec-color text-white px-4 py-2 rounded cursor-pointer lg:mt-6 md:mt-4"
+            className="flex justify-center sm:col-span-2 bg-bg-color text-white px-4 py-2 rounded cursor-pointer lg:mt-6 md:mt-4"
           >
             <ExitToAppOutlinedIcon className="mr-1"></ExitToAppOutlinedIcon>
             <p className="text-1xl font-bold">Register</p>

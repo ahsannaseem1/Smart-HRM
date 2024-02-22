@@ -5,25 +5,13 @@ const pdf = require("pdf-parse");
 const uri = process.env.DB_URI;
 const dbName = process.env.DB_NAME;
 
-
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-// try {
-//   await client.connect();
-//   req.mongoClient = client;
-//   next();
-// } catch (error) {
-//   res
-//     .status(500)
-//     .json({ error: "Unable to connect to MongoDB", details: error.message });
-// }
-
 const extractTextFromResume = async (resumeBuffer) => {
-    await client.connect();
-//   req.mongoClient = client;
+  await client.connect();
   try {
     const data = await pdf(resumeBuffer);
     return data.text;
@@ -33,19 +21,29 @@ const extractTextFromResume = async (resumeBuffer) => {
   }
 };
 
-async function GetApplicantsData() {
+async function GetApplicantsData(organizationId, jobId) {
   try {
+    await client.connect();
     const db = client.db(dbName);
     const applicantCollection = db.collection("Applicants");
-    const applicants = await applicantCollection.find().toArray();
+
+    const applicants = await applicantCollection
+      .find({
+        orgId: organizationId,
+        jobId: jobId,
+      })
+      .toArray();
+    console.log(applicants);
 
     const applicantsWithDecodedResume = await Promise.all(
       applicants.map(async (applicant) => {
-        const { _id, email, password, resume } = applicant;
-        const decodedResume = await extractTextFromResume(resume.buffer);
+        const { _id, name,phoneNumber,email, password, cv } = applicant;
+        const decodedResume = await extractTextFromResume(cv.buffer);
 
         return {
           id: _id,
+          name,
+          phoneNumber,
           email,
           password,
           resume: decodedResume,
@@ -56,8 +54,12 @@ async function GetApplicantsData() {
     return applicantsWithDecodedResume;
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    // Return an empty array or handle the error as per your application's requirements
+    return [];
+  } finally {
+    // Close the MongoDB connection after completing the operation
+    await client.close();
   }
 }
 
-module.exports = {GetApplicantsData};
+module.exports = { GetApplicantsData };

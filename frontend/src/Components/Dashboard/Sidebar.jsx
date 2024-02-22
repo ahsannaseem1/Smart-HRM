@@ -42,7 +42,7 @@ function Sidebar({ isOpen, onClose }) {
       <aside
         className={`w-60 m-3 ${
           isSidebarOpen ? "block" : "hidden"
-        } md:block bg-bg-color h-100vh p-2  flex flex-col justify-center items-center rounded-3xl shadow-lg`}
+        } md:block bg-gradient-to-b from-bg-color to-sec-color p-2 flex flex-col justify-center items-center rounded-3xl shadow-xl shadow-gray-300`}
       >
         {/* Organization Name */}
         <h1 className="text-white text-lg font-semibold mb-2 mt-4 text-center">
@@ -167,8 +167,8 @@ function SidebarItem({ to, icon, label, isActive, onClose }) {
     <li className="w-full">
       <Link
         to={to}
-        className={`flex items-center justify-between text-white py-2 md:py-1.5 mb-1 hover:bg-blue-600 ${
-          isActive ? "bg-sec-color pr-3 rounded-l-3xl" : ""
+        className={`flex items-center justify-between text-white py-2 md:py-1.5 mb-1 hover:bg-blue-600 hover:rounded-2xl ${
+          isActive ? "bg-bg-color pr-3 rounded-2xl" : ""
         }`}
         onClick={onClose}
       >
