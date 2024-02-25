@@ -19,6 +19,7 @@ import Recruitment from "./Components/Dashboard/Recruitment/Recruitment";
 import Applicants from "./Components/Dashboard/Recruitment/Applicants";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./Components/Intro/Footer";
+import EmployeeProfile from "./Components/Dashboard/Employees/EmployeeProfile";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           />
           <Route path="/register" element={<Register></Register>}></Route>
           <Route path="/dashboard/Employees/AddEmployee" element={<AddEmployee></AddEmployee>}></Route>
+          <Route path="/dashboard/Employees/EmployeeProfile" element={<EmployeeProfile></EmployeeProfile>}></Route>
           <Route path="/dashboard/attendance" element={<AttendancePage></AttendancePage>}></Route>
           <Route path="/dashboard/leave" element={<Leave></Leave>}></Route>
           <Route path="/dashboard/payroll" element={<Payroll></Payroll>}></Route>

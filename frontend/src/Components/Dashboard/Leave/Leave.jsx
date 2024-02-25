@@ -11,62 +11,68 @@ import ClearIcon from '@mui/icons-material/Clear';
 import axios from "axios";
 
 function Leave() {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const [employees, setEmployees] = useState([]);
-  const[hrEmail,setHrEmail]=useState([]);
-  const [loading,setLoading]=useState(false);
+  const [hrEmail, setHrEmail] = useState([]);
+  const [loading, setLoading] = useState(false);
   const data = useSelector((state) => state.EmployeeData);
 
   useEffect(() => {
     setEmployees(data.employeeData);
-setHrEmail(data.user.email);
-}, [data.employeeData]);
+    setHrEmail(data.user.email);
+  }, [data.employeeData]);
 
   // Function to handle the approval or rejection of leave request
   // Function to handle the approval or rejection of leave request
-const handleLeaveAction = async (employeeId, leaveId, action) => {
-  try {
-        // Get the organizationId from the employee data
-    const organizationId = employees.find(emp => emp._id === employeeId)?.organizationId;
-    setLoading(true);
-    const response = await axios.post("http://localhost:5000/AcceptOrRejectLeave", {
-      employeeId,
-      leaveId,
-      status:action,
-      organizationId,
-      email:hrEmail
-    });
-    if(response){
+  const handleLeaveAction = async (employeeId, leaveId, action) => {
+    try {
+      // Get the organizationId from the employee data
+      const organizationId = employees.find(emp => emp._id === employeeId)?.organizationId;
+      setLoading(true);
+      const response = await axios.post("http://localhost:5000/AcceptOrRejectLeave", {
+        employeeId,
+        leaveId,
+        status: action,
+        organizationId,
+        email: hrEmail
+      });
+      if (response) {
+        setLoading(false);
+        dispatch(setEmployeeData(response.data));
+      }
+    } catch (error) {
       setLoading(false);
-      dispatch(setEmployeeData(response.data));
+      console.error("Error occurred while making API call:", error.message);
     }
-  } catch (error) {
-    setLoading(false);
-    console.error("Error occurred while making API call:", error.message);
-  }
-};
+  };
 
 
   return (
     <div className={`flex gap-4 w-full ${loading ? 'pointer-events-none opacity-70' : ''}`}>
-    {loading && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <CircularProgress color="inherit" />
-          </div>
-        )}
+      {loading && (
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <CircularProgress color="inherit" />
+        </div>
+      )}
       <div>
         <Sidebar></Sidebar>
       </div>
       <div className="w-full p-4">
-        <DashboardOverview pageName="Leave"></DashboardOverview>
-        <button className="bg-bg-color p-2 rounded-lg text-white shadow-md mb-4 active:bg-white active:text-bg-color"><AddIcon></AddIcon>Apply Leave</button>
-
+        <DashboardOverview pageName="Leaves"></DashboardOverview>
+        <div className="flex items-center mb-4">
+          <button
+            className="bg-bg-color px-3 py-2 rounded-3xl border-none font-bold text-center cursor-pointer transition duration-400 hover:shadow-lg hover:shadow-gray-400 active:transform active:scale-97 active:shadow-lg"
+          >
+            <AddIcon className="inline-block" style={{ color: 'white' }} />
+            <span className="ml-2 text-white">Apply Leave</span>
+          </button>
+        </div>
         <div className="flex justify-between gap-8 w-full h-[77%] ">
-          <div className="flex flex-col w-1/3 border border-black rounded-md shadow-lg min-h-full">
+          <div className="flex flex-col w-1/3 border border-gray-200 rounded-xl shadow-md shadow-gray-300 min-h-full cursor-pointer">
             <div className="font-bold">
-              <p className="p-4">Leave Calendar</p>
-              <hr className="border border-black"></hr>
+              <p className="p-4 text-bold">Leave Calendar</p>
+              <hr className="border border-gray-200"></hr>
             </div>
 
             {/* Display approved leave requests on Leave Calendar */}
@@ -87,11 +93,11 @@ const handleLeaveAction = async (employeeId, leaveId, action) => {
                             </div>
                             <div className="self-center">
                               <div
-                                // className={`rounded-lg p-2 ${
-                                //   leave.status === "Approved"
-                                //     ? "bg-gray-500"
-                                //     : "bg-bg-color"
-                                // } text-white`}
+                              // className={`rounded-lg p-2 ${
+                              //   leave.status === "Approved"
+                              //     ? "bg-gray-500"
+                              //     : "bg-bg-color"
+                              // } text-white`}
                               >
                                 <p><span className="font-bold">Days: </span>{leave.leaveDays}</p>
                               </div>
@@ -104,10 +110,10 @@ const handleLeaveAction = async (employeeId, leaveId, action) => {
               )}
           </div>
           <div className="w-2/3">
-            <div className="flex flex-col w-full border border-black rounded-md shadow-lg min-h-full">
+            <div className="flex flex-col w-full border border-gray-200 rounded-xl shadow-md shadow-gray-300 min-h-full cursor-pointer">
               <div className="font-bold">
                 <p className="p-4">Leave Requests</p>
-                <hr className="border border-black"></hr>
+                <hr className="border border-gray-200"></hr>
               </div>
               {/* Display pending leave requests in the Leave Requests section */}
               {employees &&
@@ -142,7 +148,7 @@ const handleLeaveAction = async (employeeId, leaveId, action) => {
                                     }
                                     className="p-2 text-sm bg-green-500 text-white rounded-lg active:text-green-600 active:bg-white"
                                   >
-                                  <DoneIcon fontSize="small"></DoneIcon>
+                                    <DoneIcon fontSize="small"></DoneIcon>
                                     Approve
                                   </button>
                                   <button
@@ -155,7 +161,7 @@ const handleLeaveAction = async (employeeId, leaveId, action) => {
                                     }
                                     className="p-2 text-sm bg-red-500 text-white rounded-lg active:text-red-600 active:bg-white"
                                   >
-                                  <ClearIcon fontSize="small"></ClearIcon>
+                                    <ClearIcon fontSize="small"></ClearIcon>
                                     Reject
                                   </button>
                                 </div>

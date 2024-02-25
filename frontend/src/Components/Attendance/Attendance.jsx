@@ -76,15 +76,15 @@ const Attendance = () => {
       <DashboardOverview pageName="Attendance" />
 
       {/* Upper Section */}
-      <div className="flex flex-row pt-6 mb-8">
-        <div className="flex flex-col justify-center items-center w-1/3 rounded-xl mr-4 border border-gray-200 shadow-md shadow-gray-300 hover:shadow-blue-300 cursor-pointer">
+      <div className="flex flex-row mt-4 w-full">
+        <div className="flex flex-col justify-center items-center w-1/3 rounded-xl mr-6 border border-gray-200 shadow-md shadow-gray-300 hover:shadow-blue-300 cursor-pointer">
           <p className="text-2xl font-extrabold text-center p-2 rounded-md">
             <EventAvailableIcon /> {employeeID}
           </p>
           <p className="text-md text-center text-gray-500">Employee ID</p>
         </div>
 
-        <div className="w-1/3 p-1 bg-transparent rounded-xl mr-4 border border-gray-200 shadow-md shadow-gray-300 hover:shadow-blue-300 cursor-pointer">
+        <div className="w-1/3 p-1 bg-transparent rounded-xl mr-6 border border-gray-200 shadow-md shadow-gray-300 hover:shadow-blue-300 cursor-pointer">
           {/* Attendance Percentage Section */}
           <div className="w-1/2">
             <p className="text-xl p-1 font-extrabold text-center rounded-md">
@@ -124,33 +124,34 @@ const Attendance = () => {
       </div>
 
       {/* Bottom Section - Attendance Details */}
-      <p className="text-xl font-semibold mb-4">
+      <p className="text-xl font-semibold mb-4 mt-8">
         Attendance Details for {selectedMonth}
       </p>
-      <div className="flex flex-col border border-black bg-transparent rounded-md p-4">
+      <div className="flex flex-col border border-gray-200 rounded-xl shadow-md shadow-gray-300 w-full">
         {/* Headings */}
-        <div className="flex flex-row font-semibold mb-2 border-b-2">
-          <div className="w-1/4">
-            <CalendarTodayIcon /> Date
+        <div className="flex flex-row font-semibold p-3 border-b border-gray-200 w-full">
+          <div className="w-1/4 flex justify-center items-center">
+            <CalendarTodayIcon /> <p className="ml-2">Date</p>
           </div>
-          <div className="w-1/4">
-            <AccessTimeIcon /> Check In
+          <div className="w-1/4 flex justify-center items-center">
+            <AccessTimeIcon /> 
+            <p className="ml-2">Check In</p>
           </div>
-          <div className="w-1/4">
-            <AccessTimeIcon /> Check Out
+          <div className="w-1/4 flex justify-center items-center">
+            <AccessTimeIcon /> <p className="ml-2">Check Out</p>
           </div>
-          <div className="w-1/4">
-            <CheckIcon /> Status
+          <div className="w-1/4 flex justify-center items-center">
+            <CheckIcon /> <p className="ml-2">Status</p>
           </div>
         </div>
 
         {/* Attendance Details Data */}
         {attendanceDetails.map((detail) => (
-          <div key={detail.date} className="flex flex-row mb-2">
-            <div className="w-1/4">{detail.date}</div>
-            <div className="w-1/4">{detail.checkIn}</div>
-            <div className="w-1/4">{detail.checkOut}</div>
-            <div className="w-1/4">
+          <div key={detail.date} className="flex flex-row mb-2 p-1 mt-1">
+            <div className="w-1/4 text-center">{detail.date}</div>
+            <div className="w-1/4 text-center">{detail.checkIn}</div>
+            <div className="w-1/4 text-center">{detail.checkOut}</div>
+            <div className="w-1/4 text-center">
               {detail.status === "Present" ? (
                 <CheckIcon style={{ color: "#4caf50" }} />
               ) : (
