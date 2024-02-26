@@ -4,7 +4,8 @@ import DashboardOverview from "./DashboardOverview";
 import DashboardFunctionalities from "./DashboardFunctionalities";
 import DashboardStat from "./DashboardCard";
 
-function DashboardContent() {
+function DashboardContent(props) {
+
   const [toDoList, setToDoList] = useState([
     "Complete Monthly Payroll",
     "Schedule Team Building",
@@ -29,12 +30,12 @@ function DashboardContent() {
 
   return (
     <div className="p-6 mt-2">
-      <DashboardOverview />
+      <DashboardOverview pageName="Dashboard" />
       <div className="grid grid-cols-2 gap-4">
-        <DashboardStat label="Total Employees" value="50" />
-        <DashboardStat label="Departments" value="10" />
-        <DashboardStat label="Leave Requests" value="5" />
-        <DashboardStat label="Loan Requests" value="2" />
+        <DashboardStat label="Total Employees" value={props.data.totalEmployees} />
+        <DashboardStat label="Departments" value={props.data.totalDepartments} />
+        <DashboardStat label="Leave Requests" value={props.data.totalLeaveRequest} />
+        <DashboardStat label="Loan Requests" value="0" />
       </div>
       <DashboardFunctionalities
         toDoList={toDoList}

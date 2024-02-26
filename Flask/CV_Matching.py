@@ -14,6 +14,8 @@ def preprocess_text(text):
     return cleaned_text
 
 def rank_applicants(job_description, applicants):
+    # print('rank_applicants')
+    # print(job_description,applicants)
     # Preprocess the job description and applicants' resumes using spaCy
     job_description = nlp(preprocess_text(job_description))
     resumes = [nlp(preprocess_text(applicant["resume"])) for applicant in applicants]
@@ -36,6 +38,7 @@ def rank_applicants(job_description, applicants):
     # Select the top 10 applicants
     top_10_applicants = [applicant for applicant in applicants if "ranking" in applicant][:10]
 
+    print(top_10_applicants)
     # Return the ranked list of applicants
     return top_10_applicants
 

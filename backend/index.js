@@ -1,16 +1,23 @@
 const express = require('express');
 const cors=require('cors');
 const bodyParser=require('body-parser');
-const SignUp=require('./Routes/SignUp');
-const AddHR=require('./Routes/AddHR');
-const Login=require('./Routes/Login');
-const AddEmployee=require('./Routes/AddEmployee');
-const AddApplicant=require('./Routes/AddApplicant');
-const GetApplicants=require('./Routes/GetApplicants');
-const GetTopApplicants=require('./Routes/GetTopApplicants');
+const SignUp=require('./Routes/Authentication/SignUp');
+const AddHR=require('./Routes/AddUser/AddHR');
+const Login=require('./Routes/Authentication/Login');
+const AddEmployee=require('./Routes/AddUser/AddEmployee');
+const AddApplicant=require('./Routes/Applicant/AddApplicant');
+const GetApplicants=require('./Routes/Applicant/GetApplicants');
+const GetTopApplicants=require('./Routes/Applicant/GetTopApplicants');
 const RequestLeave=require('./Routes/Leave/RequestLeave');
 const AcceptOrRejectLeave=require('./Routes/Leave/AcceptOrRejectLeave');
 const GetLeavesData=require('./Routes/Leave/GetLeavesData');
+const AddAttendance=require('./Routes/Attendance/AddAttendance');
+const AddJob=require('./Routes/Job/AddJob');
+const GetJobs=require('./Routes/Job/GetJobs');
+const AddAllowance=require('./Routes/Allowances/AddAllowance');
+const AddBonus=require('./Routes/Payroll/Bonus/AddBonus');
+const Deduction=require('./Routes/Payroll/Deduction/Deduction');
+const Payroll=require('./Routes/Payroll/Payroll');
 
 const app = express();
 
@@ -28,6 +35,13 @@ app.use('/GetTopApplicants',GetTopApplicants);
 app.use('/RequestLeave',RequestLeave);
 app.use('/AcceptOrRejectLeave',AcceptOrRejectLeave);
 app.use('/GetLeavesData',GetLeavesData);
+app.use('/AddAttendance',AddAttendance);
+app.use('/AddJob',AddJob)
+app.use('/GetJobs',GetJobs);
+app.use('/AddAllowance',AddAllowance);
+app.use('/AddBonus',AddBonus);
+app.use('/Deduction',Deduction);
+app.use('/Payroll',Payroll);
 
 
 const port = process.env.PORT || 5000;

@@ -1,38 +1,55 @@
-// src/components/Dashboard.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import DashboardContent from "./DashboardContent";
+import { useSelector } from 'react-redux';
 
 function Dashboard() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const employeeData = useSelector(state => state.EmployeeData);
+  console.log(employeeData);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const [userData, setUserData] = useState(null);
+  const [organizationData, setOrganizationData] = useState(null);
+
+  useEffect(() => {
+    console.log("employeeData", employeeData);
+
+    // Check if employeeData is available and not null
+    if (employeeData) {
+      setUserData(employeeData);
+
+      setOrganizationData({
+        totalEmployees: employeeData.employeeData.length || 0,
+        totalDepartments: employeeData.departments?.uniqueDepartmentsCount || 0,
+        totalLeaveRequest: employeeData.totalLeavesRequestPending || 0,
+      });
+    }
+  }, [employeeData]);
+
+  // Render a loading state if organizationData is still null
+  if (!organizationData) {
+    return (
+      <div className="flex flex-col md:flex-row h-screen">
+        <Sidebar></Sidebar>
+        <div className='flex-1 flex flex-col overflow-hidden bg-color'>
+          <main className="flex-1 overflow-x-hidden overflow-y-auto">
+            <p>Loading...</p>
+          </main>
+        </div>
+      </div>
+    );
+  }
 
   return (
+  
     <div className="flex flex-col md:flex-row h-screen">
-      {/* Hamburger Menu for Mobile */}
-      <div className="md:hidden">
-        <button
-          onClick={toggleSidebar}
-          className="bg-gray-200 text-white font-extrabold m-2 p-4 rounded-xl"
-        >
-          {isSidebarOpen ? "✕" : "☰"}
-        </button>
-      </div>
-
-      {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-
-      {/* Main Content Area */}
-      <div
-        className={`flex-1 flex flex-col overflow-hidden bg-color ${
-          isSidebarOpen ? "md:ml-64" : "" // Adjust the margin when the sidebar is open
-        }`}
-      >
+      {/* <img
+      src={`data:image/jpeg;base64,${employeeData.employeeData[9].image}`}
+    alt="Employee Image"
+  /> */}
+      <Sidebar></Sidebar>
+      <div className='flex-1 flex flex-col overflow-hidden bg-color'>
         <main className="flex-1 overflow-x-hidden overflow-y-auto">
-          <DashboardContent />
+          <DashboardContent data={organizationData} />
         </main>
       </div>
     </div>
