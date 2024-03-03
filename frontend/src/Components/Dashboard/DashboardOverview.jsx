@@ -1,7 +1,7 @@
 // src/components/Dashboard/DashboardOverview.jsx
 import React, { useState, useEffect } from "react";
 
-function DashboardOverview() {
+function DashboardOverview(props) {
   const [currentDate, setCurrentDate] = useState("");
 
   useEffect(() => {
@@ -17,9 +17,9 @@ function DashboardOverview() {
   }, []);
 
   return (
-    <div className="flex justify-between items-center border-b-2 mb-8">
-      <h1 className="text-3xl font-extrabold">Dashboard</h1>
-      <p className="text-gray-500">{currentDate}</p>
+    <div className="flex justify-between items-center border-b-2 mt-4 mb-4">
+      <h1 className="text-3xl font-extrabold">{props.pageName}</h1>
+      <p className="text-gray-500 text-sm hidden sm:block">{currentDate}</p>
     </div>
   );
 }

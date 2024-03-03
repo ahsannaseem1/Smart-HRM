@@ -1,19 +1,20 @@
-const { MongoClient } = require("mongodb");
-require("dotenv").config();
+const { connectToMongoDB, closeMongoDBConnection } = require("../connectDB");
+const {
+  getHrAndEmployee,
+} = require("../GetOrganizationData/GetHRandEmployee");
+
 const { ObjectId } = require("mongodb");
 
-const dbUri = process.env.DB_URI;
-const dbName = process.env.DB_NAME;
-
-async function acceptOrRejectLeave(employeeId, leaveId, status) {
-  const uri = dbUri;
-  const client = new MongoClient(uri);
-
+async function acceptOrRejectLeave(
+  employeeId,
+  leaveId,
+  status,
+  organizationId,
+  email
+) {
   try {
-    await client.connect();
-
-    const database = client.db(dbName);
-    const employeeCollection = database.collection("Employees");
+    const db = await connectToMongoDB();
+    const employeeCollection = db.collection("Employees");
 
     const result = await employeeCollection.updateOne(
       {
@@ -53,11 +54,20 @@ async function acceptOrRejectLeave(employeeId, leaveId, status) {
       }
     }
 
-    return { error: null, message: "Leave request updated successfully" };
+   const{
+      userType,
+      user,
+      employeeData,
+      totalLeavesRequestPending,
+      departments,
+    } = await getHrAndEmployee(email,organizationId);
+    // console.log(user,userType,employeeData,totalLeavesRequestPending,departments);
+    return({user, departments, employeeData, totalLeavesRequestPending, userType,error:null})
+
   } catch (error) {
-    return { error: error, message: null };
+    return { error: error };
   } finally {
-    await client.close();
+    await closeMongoDBConnection();
   }
 }
 

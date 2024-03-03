@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import LoginImage from "../images/log1.jpg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CircularProgress from '@mui/material/CircularProgress';
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
-import InputField from "./InputField";
+import InputField from "./Styles/InputField";
 import validator from "validator";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setEmployeeData } from "../state/index";
+import { setJobs } from "../state/JobsSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "muhammad@devsinc.com",
+    password: "123456",
   });
 
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const [user, setUser] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -46,6 +56,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!validateForm()) {
       return;
@@ -57,20 +68,27 @@ const Login = () => {
       );
 
       if (response.data) {
+        dispatch(setJobs(response.data.jobs.jobs));
+        dispatch(setEmployeeData(response.data));
         setUser(response.data);
-        console.log(response.data);
+        setLoading(false);
+        navigate(`/HR/dashboard`, { state: { data: response.data } });
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
       setApiError(error.response.data.error);
     }
   };
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
+      {/* Background blur effect */}
+      {loading && <div className="absolute inset-0 backdrop-filter backdrop-blur-sm z-10"></div>}
+      
       {/* Left Section */}
       <div className="w-full md:w-1/2 p-4 h-full">
-        <ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-black" />
+        <Link to='/'><ArrowBackIcon className="cursor-pointer absolute top-8 left-8 text-black" /></Link>
         <img
           src={LoginImage}
           alt="login"
@@ -79,8 +97,8 @@ const Login = () => {
       </div>
 
       {/* Right Section */}
-      <div className="bg-bg-color w-full md:w-1/2 p-4 flex items-center justify-center h-full">
-        <div className="bg-bg-color p-8 text-center max-w-md mx-auto">
+      <div className="bg-sec-color w-full md:w-1/2 p-4 flex items-center justify-center h-full">
+        <div className="bg-sec-color p-8 text-center max-w-md mx-auto">
           <h2 className="text-5xl font-bold mb-4 text-white">Login</h2>
           <p className="text-lg text-white mb-6">
             Enter your credentials to login
@@ -97,6 +115,8 @@ const Login = () => {
                 value={formData.email}
                 autoComplete="off"
                 onChange={handleInputChange}
+                focusColor="white"
+                top="6"
               />
               {errors.email && (
                 <p className="text-red-800 font-bold text-xs text-left">
@@ -114,6 +134,8 @@ const Login = () => {
                 value={formData.password}
                 autoComplete="off"
                 onChange={handleInputChange}
+                focusColor="white"
+                top="6"
               />
               {errors.password && (
                 <p className="text-red-800 font-bold text-xs text-left">
@@ -129,16 +151,21 @@ const Login = () => {
 
             {/* Submit Button */}
             <div className="mb-4">
-              <button className="flex justify-center bg-sec-color text-white p-1 rounded cursor-pointer w-full mt-4">
+              <button className="flex justify-center bg-bg-color text-white p-1 rounded cursor-pointer w-full mt-4 active:text-sec-color active:bg-white">
                 <LoginOutlinedIcon className="mr-2" />
                 <p className="text-lg font-bold">Login</p>
               </button>
             </div>
           </form>
-
-          {/* API Error */}
         </div>
       </div>
+
+      {/* Circular progress */}
+      {loading && (
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+          <CircularProgress style={{ color: 'blue' }} />
+        </div>
+      )}
     </div>
   );
 };

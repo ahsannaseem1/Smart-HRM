@@ -6,8 +6,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'bg-color': '#207df7',
-        'sec-color':'#001763',
+        'bg-color': '#4673fa',
+        'sec-color':'#000a29',
         
       },
       fontFamily: {
